@@ -6,6 +6,8 @@ import GlobalStyles from '@/styles/global';
 
 import * as S from './style';
 
+import 'antd/dist/antd.css';
+
 const Bootstrap: FC = ({ children }) => {
   return (
     <S.Wrapper>
