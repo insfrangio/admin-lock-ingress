@@ -1,14 +1,9 @@
 import type { NextPage } from 'next';
 
-import Bootstrap from '../components/Bootstrap/Bootstrap';
-import Main from './main/main';
+import Main from './main';
 
 const Home: NextPage = () => {
-  return (
-    <Bootstrap>
-      <Main />
-    </Bootstrap>
-  );
+  return <Main />;
 };
 
 export default Home;

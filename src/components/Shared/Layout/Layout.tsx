@@ -1,10 +1,5 @@
 import React, { FC } from 'react';
 
-import {
-  UploadOutlined,
-  UserOutlined,
-  VideoCameraOutlined
-} from '@ant-design/icons';
 import { Layout as LayoutAntd } from 'antd';
 
 import MenuContainer from '../Menu/Menu';
@@ -15,19 +10,19 @@ const Layout: FC = ({ children }) => {
   const { Header, Footer } = LayoutAntd;
   const isCollapsed = false;
   return (
-    <S.Layout>
+    <LayoutAntd>
       <S.Sider collapsible collapsed={isCollapsed} mode='inline' trigger={null}>
         <S.HeaderSider>Logo</S.HeaderSider>
         <MenuContainer />
         <PackageVersion />
       </S.Sider>
 
-      <S.Layout>
+      <LayoutAntd>
         <Header />
         <S.Content>{children}</S.Content>
         <Footer />
-      </S.Layout>
-    </S.Layout>
+      </LayoutAntd>
+    </LayoutAntd>
   );
 };
 

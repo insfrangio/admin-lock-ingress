@@ -10,9 +10,8 @@ const {
 } = LayoutDefault;
 
 export const Layout = styled(LayoutDefault)`
-  /* min-height: 100%;
-  height: 100%; */
-  background-color: red;
+  min-height: 100%;
+  height: 100%;
 `;
 
 export const HeaderWrap = styled(Header)`
@@ -21,6 +20,7 @@ export const HeaderWrap = styled(Header)`
 
 export const Content = styled(ContentDefault)`
   padding: 20px;
+  height: 100%;
 
   .ant-page-header {
     padding: 0 0 16px;
