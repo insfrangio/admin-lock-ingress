@@ -26,7 +26,7 @@ const menuItems = [
 const MenuContainer = () => {
   const router = useRouter();
   return (
-    <S.Menu defaultSelectedKeys={[router.pathname]}>
+    <S.Menu mode='inline' defaultSelectedKeys={[router.pathname]}>
       {menuItems.map((item) => {
         return (
           <S.Menu.Item key={item.key} icon={item.icon}>

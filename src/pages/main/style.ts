@@ -1,8 +1,7 @@
+import styled from 'styled-components';
 
-const style = () => {
-  return (
-    <div><h2>alo</h2><</div>
-  )
-}
+import { PageHeader } from 'antd';
 
-export default style
+export const Header = styled(PageHeader)`
+  padding: 16px 24px;
+`;
