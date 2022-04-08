@@ -8,6 +8,7 @@ import GlobalStyles from '@/styles/global';
 import 'antd/dist/antd.css';
 
 function MyApp({ Component, pageProps }: AppProps) {
+  const Layout = Component.layout ?? Fragment;
   return (
     <Fragment>
       <Head>
@@ -16,7 +17,9 @@ function MyApp({ Component, pageProps }: AppProps) {
         <link rel='icon' href='/favicon.ico' />
       </Head>
       <GlobalStyles />
-      <Component {...pageProps} />
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
     </Fragment>
   );
 }

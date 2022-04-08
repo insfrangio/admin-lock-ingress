@@ -14,12 +14,6 @@ const menuItems = [
     title: 'Registro',
     icon: <UserOutlined />,
     link: '/main'
-  },
-  {
-    key: 'sub2',
-    title: 'Lista',
-    icon: <TeamOutlined />,
-    link: '/list'
   }
 ];
 

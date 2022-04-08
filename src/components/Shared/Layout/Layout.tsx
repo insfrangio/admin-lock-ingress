@@ -2,6 +2,8 @@ import React, { FC, useEffect } from 'react';
 
 import { useStore } from '@/store/useStore';
 import { Layout as LayoutAntd } from 'antd';
+import { Grid, Tag } from 'antd';
+import shallow from 'zustand/shallow';
 
 import Header from '../Header/Header';
 import MenuContainer from '../Menu/Menu';
@@ -10,14 +12,24 @@ import * as S from './style';
 
 const Layout: FC = ({ children }) => {
   const { Footer } = LayoutAntd;
+  const { useBreakpoint } = Grid;
+  const screens = useBreakpoint();
+
+  console.log(screens.md);
 
   // const [isCollapsed, setCollapsed] = useState(false);
 
-  const isCollapsed = useStore((state) => state.isCollapsed);
+  const [isCollapsed, toggleCollapsed] = useStore(
+    (state) => [state.isCollapsed, state.toggleCollapsed],
+    shallow
+  );
 
   useEffect(() => {
-    console.log(isCollapsed);
-  }, []);
+    if (!screens.md && !isCollapsed) {
+      toggleCollapsed();
+    }
+  }, [screens.md]);
+
   return (
     <LayoutAntd style={{ minHeight: '100vh' }}>
       <S.Sider

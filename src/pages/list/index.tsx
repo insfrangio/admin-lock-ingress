@@ -1,13 +1,15 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 
 import Layout from '@/components/Shared/Layout/Layout';
 
 const List = () => {
   return (
-    <Layout>
+    <Fragment>
       <div>List</div>
-    </Layout>
+    </Fragment>
   );
 };
+
+List.layout = Layout;
 
 export default List;

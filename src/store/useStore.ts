@@ -7,7 +7,7 @@ export interface useStoreTypes {
 }
 
 export const useStore = create<useStoreTypes>((set) => ({
-  isCollapsed: true,
+  isCollapsed: false,
 
   toggleCollapsed: () => set((state) => ({ isCollapsed: !state.isCollapsed }))
 }));
