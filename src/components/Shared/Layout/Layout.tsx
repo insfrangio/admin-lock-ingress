@@ -15,17 +15,20 @@ const Layout: FC = ({ children }) => {
   const { useBreakpoint } = Grid;
   const screens = useBreakpoint();
 
-  console.log(screens.md);
-
-  // const [isCollapsed, setCollapsed] = useState(false);
-
   const [isCollapsed, toggleCollapsed] = useStore(
     (state) => [state.isCollapsed, state.toggleCollapsed],
     shallow
   );
 
+  console.log('Md', screens.md);
+
+  console.log('IsCollapsed', isCollapsed);
+
   useEffect(() => {
     if (!screens.md && !isCollapsed) {
+      toggleCollapsed();
+    }
+    if (screens.md && isCollapsed) {
       toggleCollapsed();
     }
   }, [screens.md]);

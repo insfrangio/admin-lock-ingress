@@ -10,38 +10,44 @@ import * as S from './style';
 
 const columns = [
   {
-    title: 'Name',
+    title: 'Nombres',
     dataIndex: 'name',
     key: 'name',
     render: (text) => <a>{text}</a>
   },
   {
-    title: 'Privilege',
+    title: 'Privilegio',
     dataIndex: 'privilege',
     key: 'privilege',
     responsive: ['md']
   },
   {
-    title: 'Tags',
-    key: 'tags',
-    dataIndex: 'tags',
-    render: (tags) => (
-      <>
-        {tags.map((tag) => {
-          let color = tag.length > 5 ? 'geekblue' : 'green';
-          if (tag === 'loser') {
-            color = 'volcano';
-          }
-          return (
-            <Tag color={color} key={tag}>
-              {tag.toUpperCase()}
-            </Tag>
-          );
-        })}
-      </>
-    ),
+    title: 'Departamento',
+    dataIndex: 'department',
+    key: 'department',
     responsive: ['md']
   },
+  // {
+  //   title: 'Tags',
+  //   key: 'tags',
+  //   dataIndex: 'tags',
+  //   render: (tags) => (
+  //     <>
+  //       {tags.map((tag) => {
+  //         let color = tag.length > 5 ? 'geekblue' : 'green';
+  //         if (tag === 'loser') {
+  //           color = 'volcano';
+  //         }
+  //         return (
+  //           <Tag color={color} key={tag}>
+  //             {tag.toUpperCase()}
+  //           </Tag>
+  //         );
+  //       })}
+  //     </>
+  //   ),
+  //   responsive: ['md']
+  // },
   // {
   //   key: 'action',
   //   render: (text, record) => (
@@ -86,41 +92,55 @@ const data = [
     name: 'John Brown',
     privilege: 'Admin',
     address: 'New York No. 1 Lake Park',
-    tags: ['nice', 'developer']
+    department: 'Recursos Humanos'
   },
   {
     key: '2',
     name: 'Marcos Robles',
     privilege: 'User',
     address: 'London No. 1 Lake Park',
-    tags: ['loser']
+    department: 'Limpieza'
   },
   {
     key: '3',
-    name: 'Joe Black',
+    name: 'Claudio Aquino',
     privilege: 'Invited',
     address: 'Sidney No. 1 Lake Park',
-    tags: ['cool', 'teacher']
+    department: 'Informatica'
+  },
+  {
+    key: '3',
+    name: 'Jorge Gonzalez',
+    privilege: 'Invited',
+    address: 'Sidney No. 1 Lake Park',
+    department: 'Administrativo'
+  },
+  {
+    key: '3',
+    name: 'Pika Lucena',
+    privilege: 'Invited',
+    address: 'Sidney No. 1 Lake Park',
+    department: 'Logistica'
   }
 ];
 
-const Main = () => {
+const Users = () => {
   const router = useRouter();
   return (
     <Fragment>
       <S.Header
         className='site-page-header-responsive'
         onBack={() => window.history.back()}
-        title='Title'
-        subTitle='This is a subtitle'
+        title='Usuarios'
+        subTitle='Hay un total de 4 usuarios'
         backIcon={false}
         extra={[
           <Button
             key='1'
             type='primary'
-            onClick={() => router.push('/main/save')}
+            onClick={() => router.push('/users/save')}
           >
-            Create User
+            Crear Usuario
           </Button>
         ]}
       />
@@ -129,6 +149,9 @@ const Main = () => {
     </Fragment>
   );
 };
-Main.layout = Layout;
 
-export default Main;
+Users.getLayout = function getLayout(page) {
+  return <Layout>{page}</Layout>;
+};
+
+export default Users;

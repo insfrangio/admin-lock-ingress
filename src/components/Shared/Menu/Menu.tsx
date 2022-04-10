@@ -1,19 +1,22 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
-import { Fragment, useState } from 'react';
-
-import { TeamOutlined, UserOutlined } from '@ant-design/icons';
-import { Menu } from 'antd';
+import { HomeOutlined, UserOutlined } from '@ant-design/icons';
 
 import * as S from './style';
 
 const menuItems = [
   {
     key: 'sub1',
-    title: 'Registro',
+    title: 'Inicio',
+    icon: <HomeOutlined />,
+    link: '/'
+  },
+  {
+    key: 'sub2',
+    title: 'Usuarios',
     icon: <UserOutlined />,
-    link: '/main'
+    link: '/users'
   }
 ];
 

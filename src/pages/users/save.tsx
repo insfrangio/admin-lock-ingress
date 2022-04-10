@@ -18,6 +18,8 @@ const Save = () => {
     </div>
   );
 };
-Save.layout = Layout;
+Save.getLayout = function getLayout(page) {
+  return <Layout>{page}</Layout>;
+};
 
 export default Save;
