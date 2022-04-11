@@ -1,7 +1,7 @@
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 
-import { Fragment } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 
 import GlobalStyles from '@/styles/global';
 
@@ -9,6 +9,13 @@ import 'antd/dist/antd.css';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const getLayout = Component.getLayout || ((page) => page);
+  const [showChild, setShowChild] = useState(false);
+
+  useEffect(() => {
+    setShowChild(true);
+  }, []);
+
+  if (!showChild) return null;
 
   return (
     <Fragment>
