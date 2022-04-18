@@ -1,7 +1,11 @@
 import Layout from '@/components/Shared/Layout/Layout';
 
 const Home = () => {
-  return <h1>Inicio</h1>;
+  return (
+    <div>
+      <h1>Inicio</h1>
+    </div>
+  );
 };
 
 Home.getLayout = function getLayout(page) {

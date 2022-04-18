@@ -3,16 +3,24 @@ import { useRouter } from 'next/router';
 import React, { Fragment } from 'react';
 
 import Layout from '@/components/Shared/Layout/Layout';
+import { GET_USERS } from '@/queries/user';
 import { EditTwoTone, EyeTwoTone } from '@ant-design/icons';
+import { useQuery } from '@apollo/client';
 import { Button, Space, Table, Tag } from 'antd';
 
 import * as S from './style';
 
 const columns = [
   {
-    title: 'Nombres',
-    dataIndex: 'name',
-    key: 'name',
+    title: 'Nombre',
+    dataIndex: 'firstName',
+    key: 'firstName',
+    render: (text) => <a>{text}</a>
+  },
+  {
+    title: 'Apellido',
+    dataIndex: 'lastName',
+    key: 'lastName',
     render: (text) => <a>{text}</a>
   },
   {
@@ -126,6 +134,9 @@ const data = [
 
 const Users = () => {
   const router = useRouter();
+  const { loading, data: dataUsers } = useQuery(GET_USERS);
+  if (loading) return <h1>Loading....</h1>;
+  console.log(dataUsers.getUsers);
   return (
     <Fragment>
       <S.Header
@@ -145,7 +156,7 @@ const Users = () => {
         ]}
       />
 
-      <Table columns={columns} dataSource={data} />
+      <Table columns={columns} dataSource={dataUsers.getUsers} />
     </Fragment>
   );
 };

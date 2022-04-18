@@ -1,0 +1,4 @@
+acaray
+acaray2022
+
+mongodb+srv://acaray:acaray2022@admin-acaray.zdabi.mongodb.net/admin-acaray
