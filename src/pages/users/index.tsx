@@ -10,127 +10,93 @@ import { Button, Space, Table, Tag } from 'antd';
 
 import * as S from './style';
 
-const columns = [
-  {
-    title: 'Nombre',
-    dataIndex: 'firstName',
-    key: 'firstName',
-    render: (text) => <a>{text}</a>
-  },
-  {
-    title: 'Apellido',
-    dataIndex: 'lastName',
-    key: 'lastName',
-    render: (text) => <a>{text}</a>
-  },
-  {
-    title: 'Privilegio',
-    dataIndex: 'privilege',
-    key: 'privilege',
-    responsive: ['md']
-  },
-  {
-    title: 'Departamento',
-    dataIndex: 'department',
-    key: 'department',
-    responsive: ['md']
-  },
-  // {
-  //   title: 'Tags',
-  //   key: 'tags',
-  //   dataIndex: 'tags',
-  //   render: (tags) => (
-  //     <>
-  //       {tags.map((tag) => {
-  //         let color = tag.length > 5 ? 'geekblue' : 'green';
-  //         if (tag === 'loser') {
-  //           color = 'volcano';
-  //         }
-  //         return (
-  //           <Tag color={color} key={tag}>
-  //             {tag.toUpperCase()}
-  //           </Tag>
-  //         );
-  //       })}
-  //     </>
-  //   ),
-  //   responsive: ['md']
-  // },
-  // {
-  //   key: 'action',
-  //   render: (text, record) => (
-  //     <Space size='middle'>
-  //       <a>Invite {record.name}</a>
-  //       <a>Delete</a>
-  //     </Space>
-  //   )
-  // },
-  {
-    title: 'Action',
+const columns = (router) => {
+  return [
+    {
+      title: 'Nombre',
+      dataIndex: 'firstName',
+      key: 'firstName',
+      render: (text) => <a>{text}</a>
+    },
+    {
+      title: 'Apellido',
+      dataIndex: 'lastName',
+      key: 'lastName',
+      render: (text) => <a>{text}</a>
+    },
+    {
+      title: 'Privilegio',
+      dataIndex: 'authType',
+      key: 'authType',
+      responsive: ['md']
+    },
+    {
+      title: 'Departamento',
+      dataIndex: 'department',
+      key: 'department',
+      responsive: ['md']
+    },
+    // {
+    //   title: 'Tags',
+    //   key: 'tags',
+    //   dataIndex: 'tags',
+    //   render: (tags) => (
+    //     <>
+    //       {tags.map((tag) => {
+    //         let color = tag.length > 5 ? 'geekblue' : 'green';
+    //         if (tag === 'loser') {
+    //           color = 'volcano';
+    //         }
+    //         return (
+    //           <Tag color={color} key={tag}>
+    //             {tag.toUpperCase()}
+    //           </Tag>
+    //         );
+    //       })}
+    //     </>
+    //   ),
+    //   responsive: ['md']
+    // },
+    // {
+    //   key: 'action',
+    //   render: (text, record) => (
+    //     <Space size='middle'>
+    //       <a>Invite {record.name}</a>
+    //       <a>Delete</a>
+    //     </Space>
+    //   )
+    // },
+    {
+      title: 'Action',
 
-    dataIndex: 'id',
-    key: 'action',
-    align: 'center',
-    fixed: 'center',
-    render: (id, challenge) => (
-      <Space size='middle'>
-        <Button
-          type='text'
-          style={{
-            opacity: ['Draft', 'Canceled'].includes(challenge.status) ? 0.3 : 1
-          }}
-          disabled={['Draft', 'Canceled'].includes(challenge.status)}
-          icon={<EyeTwoTone />}
-          // onClick={() => router.push(`/challenge/${id}/dashboard`)}
-        />
+      dataIndex: 'id',
+      key: 'action',
+      align: 'center',
+      fixed: 'center',
+      render: (id, challenge) => (
+        <Space size='middle'>
+          <Button
+            type='text'
+            // style={{
+            //   opacity: ['Draft', 'Canceled'].includes(challenge.status)
+            //     ? 0.3
+            //     : 1
+            // }}
+            // disabled={['Draft', 'Canceled'].includes(challenge.status)}
+            icon={<EyeTwoTone />}
+            onClick={() => router.push(`/users/${id}/save`)}
+          />
 
-        <Button
-          type='text'
-          icon={<EditTwoTone />}
-          // onClick={() => router.push(`/challenge/${id}/save?tab=2`)}
-        />
-      </Space>
-    )
-  }
-];
-
-const data = [
-  {
-    key: '1',
-    name: 'John Brown',
-    privilege: 'Admin',
-    address: 'New York No. 1 Lake Park',
-    department: 'Recursos Humanos'
-  },
-  {
-    key: '2',
-    name: 'Marcos Robles',
-    privilege: 'User',
-    address: 'London No. 1 Lake Park',
-    department: 'Limpieza'
-  },
-  {
-    key: '3',
-    name: 'Claudio Aquino',
-    privilege: 'Invited',
-    address: 'Sidney No. 1 Lake Park',
-    department: 'Informatica'
-  },
-  {
-    key: '3',
-    name: 'Jorge Gonzalez',
-    privilege: 'Invited',
-    address: 'Sidney No. 1 Lake Park',
-    department: 'Administrativo'
-  },
-  {
-    key: '3',
-    name: 'Pika Lucena',
-    privilege: 'Invited',
-    address: 'Sidney No. 1 Lake Park',
-    department: 'Logistica'
-  }
-];
+          <Button
+            type='text'
+            icon={<EditTwoTone />}
+            onClick={() => router.push(`/users/${id}/save`)}
+          />
+        </Space>
+      )
+    }
+  ];
+};
 
 const Users = () => {
   const router = useRouter();
@@ -156,7 +122,7 @@ const Users = () => {
         ]}
       />
 
-      <Table columns={columns} dataSource={dataUsers.getUsers} />
+      <Table columns={columns(router)} dataSource={dataUsers.getUsers} />
     </Fragment>
   );
 };

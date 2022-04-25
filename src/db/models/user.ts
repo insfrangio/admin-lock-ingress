@@ -25,6 +25,11 @@ const UsersSchema = new Schema({
     required: true,
     trim: true
   },
+  authType: {
+    type: String,
+    required: true,
+    trim: true
+  },
   createAt: {
     type: Date,
     default: Date.now()

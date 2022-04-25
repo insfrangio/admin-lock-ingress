@@ -1,29 +1,41 @@
 import React from 'react';
 
-import { Card, Space, Button, Row, Col } from 'antd';
+import { Row, Col } from 'antd';
 import { Formik } from 'formik';
 import { Form, Input, InputNumber, Select, SubmitButton } from 'formik-antd';
+import { isEmpty } from 'lodash';
 
-import { initialValues } from './initialValues';
-import { schema } from './schema';
 import * as S from './style';
 
-const FormUser = () => {
-  const privilegeOptions: any = [
-    { label: 'Administrador', value: 'admin' },
-    { label: 'Usuario', value: 'user' },
-    { label: 'Invitado', value: 'invited' }
+const FormUser = ({ handleSubmit, user }) => {
+  const authOptions: any = [
+    { label: 'Administrador', value: 'Admin' },
+    { label: 'Usuario', value: 'User' },
+    { label: 'Invitado', value: 'Invited' }
   ];
 
+  console.log(user?.getUser);
+
+  const initialValues = isEmpty(user?.getUser)
+    ? {
+        firstName: '',
+        lastName: '',
+        phoneNumber: 983,
+        department: '',
+        authType: ''
+      }
+    : {
+        ...user?.getUser
+      };
+
   return (
-    <S.Card title='Create User'>
+    <S.Card title='Editar Usuario'>
       <S.Wrapper>
         <S.CardGrid hoverable={false}>
           <Formik
             initialValues={initialValues}
             enableReinitialize
-            validationSchema={schema}
-            onSubmit={() => console.log('console')}
+            onSubmit={(values) => handleSubmit(values)}
           >
             {({ values }) => {
               return (
@@ -39,14 +51,14 @@ const FormUser = () => {
                         <Input name='lastName' />
                       </Form.Item>
                     </Col>
-                    <Col xs={24} md={8} lg={8}>
+                    {/* <Col xs={24} md={8} lg={8}>
                       <Form.Item name='documentNumber' label='Documento'>
                         <InputNumber
                           style={{ width: '100%' }}
                           name='documentNumber'
                         />
                       </Form.Item>
-                    </Col>
+                    </Col> */}
                     <Col xs={24} md={8} lg={8}>
                       <Form.Item name='phoneNumber' label='Numero de telefono'>
                         <InputNumber
@@ -63,11 +75,11 @@ const FormUser = () => {
                       </Form.Item>
                     </Col>
                     <Col xs={24} md={8} lg={8}>
-                      <Form.Item label='Privilegio' name='privilege'>
+                      <Form.Item label='Privilegio' name='authType'>
                         <Select
-                          name='privilege'
+                          name='authType'
                           defaultValue='user'
-                          options={privilegeOptions}
+                          options={authOptions}
                         />
                       </Form.Item>
                     </Col>

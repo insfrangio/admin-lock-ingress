@@ -1,21 +1,41 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 
 import FormUser from '@/components/Shared/FormUser/FormUser';
 import Layout from '@/components/Shared/Layout/Layout';
+import { NEW_USER } from '@/queries/user';
+import { useMutation } from '@apollo/client';
 
 import * as S from './style';
 
 const Save = () => {
+  const [newUser] = useMutation(NEW_USER);
+
+  const handleSubmit = async (values: any) => {
+    try {
+      const response = await newUser({
+        variables: {
+          input: {
+            ...values
+          }
+        }
+      });
+
+      // eslint-disable-next-line no-empty
+    } catch (e) {
+      console.log('Error create user:', e);
+    }
+  };
+
   return (
-    <div>
+    <Fragment>
       <S.Header
         className='site-page-header-responsive'
         onBack={() => window.history.back()}
         title='Title'
       />
 
-      <FormUser />
-    </div>
+      <FormUser handleSubmit={handleSubmit} />
+    </Fragment>
   );
 };
 Save.getLayout = function getLayout(page) {

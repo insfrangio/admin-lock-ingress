@@ -20,10 +20,6 @@ const Layout: FC = ({ children }) => {
     shallow
   );
 
-  console.log('Md', screens.md);
-
-  console.log('IsCollapsed', isCollapsed);
-
   useEffect(() => {
     if (!screens.md && !isCollapsed) {
       toggleCollapsed();
