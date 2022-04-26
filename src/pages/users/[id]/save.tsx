@@ -6,9 +6,9 @@ import FormUser from '@/components/Shared/FormUser/FormUser';
 import Layout from '@/components/Shared/Layout/Layout';
 import { GET_USER, UPDATE_USER } from '@/queries/user';
 import { useMutation, useQuery } from '@apollo/client';
+import { Skeleton } from 'antd';
 
 import * as S from './style';
-import { Skeleton } from 'antd';
 
 const Save = () => {
   const router = useRouter();
@@ -24,7 +24,13 @@ const Save = () => {
 
   // const challenge = { ...data?.challenge } || null;
   const [updateUser, { loading: updateLoading }] = useMutation(UPDATE_USER, {
-    // fetchPolicy: 'network-only'
+    refetchQueries: [
+      {
+        query: GET_USER,
+        fetchPolicy: 'network-only',
+        variables: { id }
+      }
+    ]
   });
 
   // const handleSubmit = async (values: any) => {
@@ -71,6 +77,8 @@ const Save = () => {
   // };
 
   const handleSubmit = async (values) => {
+    console.log(values);
+    console.log(values.id);
     try {
       const response = await updateUser({
         variables: {

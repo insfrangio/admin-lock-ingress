@@ -23,6 +23,7 @@ const FormUser = ({ handleSubmit, user, onLoading }) => {
         authType: ''
       }
     : {
+        id: user?.getUser.id,
         firstName: user?.getUser.firstName,
         lastName: user?.getUser.lastName,
         phoneNumber: user?.getUser.phoneNumber,
@@ -37,7 +38,7 @@ const FormUser = ({ handleSubmit, user, onLoading }) => {
           <Formik
             initialValues={initialValues}
             enableReinitialize
-            onSubmit={(values) => handleSubmit(values)}
+            onSubmit={async (values) => await handleSubmit(values)}
           >
             {({ values }) => {
               return (

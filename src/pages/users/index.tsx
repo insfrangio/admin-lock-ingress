@@ -10,6 +10,12 @@ import { Button, Space, Table, Tag } from 'antd';
 
 import * as S from './style';
 
+export const statusTags = {
+  Admin: <Tag color='cyan'>Administrador</Tag>,
+  User: <Tag color='green'>Usuario</Tag>,
+  Invited: <Tag color='red'>Invitado</Tag>
+};
+
 const columns = (router) => {
   return [
     {
@@ -22,13 +28,15 @@ const columns = (router) => {
       title: 'Apellido',
       dataIndex: 'lastName',
       key: 'lastName',
+      responsive: ['sm'],
       render: (text) => <a>{text}</a>
     },
     {
       title: 'Privilegio',
       dataIndex: 'authType',
       key: 'authType',
-      responsive: ['md']
+      responsive: ['md'],
+      render: (auth) => statusTags[auth]
     },
     {
       title: 'Departamento',
@@ -55,7 +63,7 @@ const columns = (router) => {
             // }}
             // disabled={['Draft', 'Canceled'].includes(challenge.status)}
             icon={<EyeTwoTone />}
-            onClick={() => router.push(`/users/${id}/save`)}
+            onClick={() => router.push(`/users/${id}/details`)}
           />
 
           <Button
@@ -71,9 +79,10 @@ const columns = (router) => {
 
 const Users = () => {
   const router = useRouter();
-  const { loading, data: dataUsers } = useQuery(GET_USERS);
+  const { loading, data: dataUsers } = useQuery(GET_USERS, {
+    fetchPolicy: 'network-only'
+  });
   if (loading) return <h1>Loading....</h1>;
-  console.log(dataUsers.getUsers);
   return (
     <Fragment>
       <S.Header
@@ -93,7 +102,7 @@ const Users = () => {
         ]}
       />
 
-      <Table columns={columns(router)} dataSource={dataUsers.getUsers} />
+      <Table columns={columns(router)} dataSource={dataUsers?.getUsers} />
     </Fragment>
   );
 };

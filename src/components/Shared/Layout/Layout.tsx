@@ -46,7 +46,9 @@ const Layout: FC = ({ children }) => {
 
       <LayoutAntd>
         <Header />
-        <S.Content>{children}</S.Content>
+        <S.Content>
+          <S.Responsive>{children}</S.Responsive>
+        </S.Content>
         <Footer />
       </LayoutAntd>
     </LayoutAntd>

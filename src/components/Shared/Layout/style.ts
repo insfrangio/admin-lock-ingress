@@ -21,10 +21,17 @@ export const HeaderWrap = styled(Header)`
 export const Content = styled(ContentDefault)`
   padding: 20px;
   height: 100%;
+  display: flex;
+  justify-content: center;
 
   .ant-page-header {
     padding: 0 0 16px;
   }
+`;
+
+export const Responsive = styled.div`
+  max-width: 1200px;
+  width: 100%;
 `;
 
 export const Sider = styled(SiderDefault)`

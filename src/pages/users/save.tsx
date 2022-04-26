@@ -1,3 +1,5 @@
+import { useRouter } from 'next/router';
+
 import React, { Fragment } from 'react';
 
 import FormUser from '@/components/Shared/FormUser/FormUser';
@@ -8,7 +10,8 @@ import { useMutation } from '@apollo/client';
 import * as S from './style';
 
 const Save = () => {
-  const [newUser] = useMutation(NEW_USER);
+  const router = useRouter();
+  const [newUser, { loading }] = useMutation(NEW_USER);
 
   const handleSubmit = async (values: any) => {
     try {
@@ -19,6 +22,8 @@ const Save = () => {
           }
         }
       });
+
+      router.push('/users');
 
       // eslint-disable-next-line no-empty
     } catch (e) {
@@ -34,7 +39,7 @@ const Save = () => {
         title='Title'
       />
 
-      <FormUser handleSubmit={handleSubmit} />
+      <FormUser onLoading={loading} handleSubmit={handleSubmit} />
     </Fragment>
   );
 };
