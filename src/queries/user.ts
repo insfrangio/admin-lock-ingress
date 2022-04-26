@@ -43,8 +43,6 @@ export const UPDATE_USER = gql`
   mutation UpdateUser($id: ID!, $input: userInput) {
     updateUser(id: $id, input: $input) {
       firstName
-      lastName
-      phoneNumber
     }
   }
 `;

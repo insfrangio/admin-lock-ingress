@@ -4,25 +4,28 @@ import { Fragment } from 'react';
 
 import FormUser from '@/components/Shared/FormUser/FormUser';
 import Layout from '@/components/Shared/Layout/Layout';
-import { GET_USER } from '@/queries/user';
+import { GET_USER, UPDATE_USER } from '@/queries/user';
 import { useMutation, useQuery } from '@apollo/client';
 
 import * as S from './style';
+import { Skeleton } from 'antd';
 
 const Save = () => {
   const router = useRouter();
 
   const { id } = router.query;
 
+  // if (!id) return <Skeleton />;
+
   const { data, loading } = useQuery(GET_USER, {
-    variables: { id }
+    variables: { id },
+    fetchPolicy: 'network-only'
   });
 
   // const challenge = { ...data?.challenge } || null;
-  // const [updateChallenge, { loading: updateLoading }] = useMutation(
-  //   UPDATE_CHALLENGE,
-  //   defaultOptions({ messageVar })
-  // );
+  const [updateUser, { loading: updateLoading }] = useMutation(UPDATE_USER, {
+    // fetchPolicy: 'network-only'
+  });
 
   // const handleSubmit = async (values: any) => {
   //   const {
@@ -67,8 +70,25 @@ const Save = () => {
   //   }
   // };
 
-  const handleSubmit = (values) => {
-    return console.log('Values Edit', values);
+  const handleSubmit = async (values) => {
+    try {
+      const response = await updateUser({
+        variables: {
+          id: values.id,
+          input: {
+            firstName: values.firstName,
+            lastName: values.lastName,
+            phoneNumber: values.phoneNumber,
+            department: values.department,
+            authType: values.authType
+          }
+        }
+      });
+
+      // router.push(`/challenge/${values.id}/save?tab=2`);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -80,7 +100,11 @@ const Save = () => {
         // subTitle={challenge?.name}
       />
 
-      <FormUser user={data} onSubmit={handleSubmit} onLoading={loading} />
+      <FormUser
+        user={data}
+        handleSubmit={handleSubmit}
+        onLoading={loading || updateLoading}
+      />
     </Fragment>
   );
 };

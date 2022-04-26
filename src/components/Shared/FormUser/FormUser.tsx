@@ -7,14 +7,12 @@ import { isEmpty } from 'lodash';
 
 import * as S from './style';
 
-const FormUser = ({ handleSubmit, user }) => {
+const FormUser = ({ handleSubmit, user, onLoading }) => {
   const authOptions: any = [
     { label: 'Administrador', value: 'Admin' },
     { label: 'Usuario', value: 'User' },
     { label: 'Invitado', value: 'Invited' }
   ];
-
-  console.log(user?.getUser);
 
   const initialValues = isEmpty(user?.getUser)
     ? {
@@ -25,11 +23,15 @@ const FormUser = ({ handleSubmit, user }) => {
         authType: ''
       }
     : {
-        ...user?.getUser
+        firstName: user?.getUser.firstName,
+        lastName: user?.getUser.lastName,
+        phoneNumber: user?.getUser.phoneNumber,
+        department: user?.getUser.department,
+        authType: user?.getUser.authType
       };
 
   return (
-    <S.Card title='Editar Usuario'>
+    <S.Card title='Editar Usuario' loading={onLoading}>
       <S.Wrapper>
         <S.CardGrid hoverable={false}>
           <Formik
@@ -86,7 +88,9 @@ const FormUser = ({ handleSubmit, user }) => {
                   </Row>
                   <Row justify='center'>
                     <Col>
-                      <SubmitButton>Guardar</SubmitButton>
+                      <SubmitButton loading={onLoading}>
+                        {isEmpty(user?.getUser) ? 'Guardar' : 'Editar'}
+                      </SubmitButton>
                     </Col>
                   </Row>
 
