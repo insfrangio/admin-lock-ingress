@@ -28,6 +28,7 @@ const Header = () => {
     shallow
   );
   const router = useRouter();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [_, setToken] = useAtom(tokenAtom);
 
   const handle: Record<string, () => void> = {

@@ -11,6 +11,7 @@ import { ReactNode, useEffect, useState } from 'react';
 
 import client from '@/apollo/client';
 import GlobalStyles from '@/styles/global';
+// eslint-disable-next-line import-helpers/order-imports
 import { ApolloProvider } from '@apollo/client';
 
 import 'antd/dist/antd.css';
@@ -52,7 +53,9 @@ const MyApp = ({ Component, pageProps }: AppLayoutProps) => {
     const redirect = async () => {
       if (!token) return await router.push('/login');
     };
+
     redirect();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token]);
 
   if (!showChild) return null;

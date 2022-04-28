@@ -4,9 +4,7 @@ import FormUser from '@/components/Shared/FormUser/FormUser';
 import Layout from '@/components/Shared/Layout/Layout';
 import { NEW_USER } from '@/queries/user';
 import { useMutation } from '@apollo/client';
-import { notification } from 'antd';
-
-import * as S from './style';
+import { notification, PageHeader } from 'antd';
 
 const Save = () => {
   const [newUser, { loading }] = useMutation(NEW_USER);
@@ -36,7 +34,8 @@ const Save = () => {
 
   return (
     <Fragment>
-      <S.Header
+      <PageHeader
+        style={{ padding: '16px 24px' }}
         className='site-page-header-responsive'
         onBack={() => window.history.back()}
         title='Crear Usuario'

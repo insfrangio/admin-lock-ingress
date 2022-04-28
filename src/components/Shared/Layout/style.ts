@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { Layout as LayoutDefault, Menu } from 'antd';
+import { Layout as LayoutDefault } from 'antd';
 
 const { Header, Content: ContentDefault, Sider: SiderDefault } = LayoutDefault;
 

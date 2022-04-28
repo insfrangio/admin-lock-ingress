@@ -30,6 +30,7 @@ const Save = () => {
 
   const handleSubmit = async (values: Record<string, unknown>) => {
     try {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const response = await updateUser({
         variables: {
           id: values.id,

@@ -27,6 +27,7 @@ const Layout: FC = ({ children }) => {
     if (screens.md && isCollapsed) {
       toggleCollapsed();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [screens.md]);
 
   return (
