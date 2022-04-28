@@ -6,11 +6,10 @@ import Layout from '@/components/Shared/Layout/Layout';
 import { GET_USERS } from '@/queries/user';
 import { EditTwoTone, EyeTwoTone } from '@ant-design/icons';
 import { useQuery } from '@apollo/client';
-import { Button, Skeleton, Space, Table, Tag } from 'antd';
+import { Button, PageHeader, Skeleton, Space, Table, Tag } from 'antd';
 import { ColumnGroupType, ColumnsType, ColumnType } from 'antd/lib/table';
 
 import { departamentOptions } from '../../utils/options';
-import * as S from './style';
 
 export const statusTags: Record<string, JSX.Element> = {
   Admin: <Tag color='green'>Administrador</Tag>,
@@ -88,7 +87,8 @@ const Users = () => {
   if (loading) return <Skeleton />;
   return (
     <Fragment>
-      <S.Header
+      <PageHeader
+        style={{ padding: '16px 24px' }}
         className='site-page-header-responsive'
         onBack={() => window.history.back()}
         title='Usuarios'
