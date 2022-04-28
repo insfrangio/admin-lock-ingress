@@ -1,8 +1,13 @@
-import type { AppProps } from 'next/app';
+import type {
+  NextComponentType,
+  NextPageContext,
+  NextLayoutComponentType
+} from 'next';
+import type { AppLayoutProps, AppProps } from 'next/app';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 
-import { useEffect, useState } from 'react';
+import { FC, ReactNode, useEffect, useState } from 'react';
 
 import client from '@/apollo/client';
 import GlobalStyles from '@/styles/global';
@@ -15,8 +20,26 @@ import { useAtom } from 'jotai';
 import { tokenAtom } from './login';
 import Login from './login';
 
-function MyApp({ Component, pageProps }: AppProps) {
-  const getLayout = Component.getLayout || ((page) => page);
+declare module 'next' {
+  type NextLayoutComponentType<P = Record<string, never>> = NextComponentType<
+    NextPageContext,
+    never,
+    P
+  > & {
+    getLayout?: (page: ReactNode) => ReactNode;
+  };
+}
+
+declare module 'next/app' {
+  type AppLayoutProps = AppProps & {
+    Component: NextLayoutComponentType;
+  };
+}
+
+const MyApp = ({ Component, pageProps }: AppLayoutProps) => {
+  const getLayout =
+    (Component.getLayout as (page: ReactNode) => ReactNode) ||
+    ((page: ReactNode) => page);
   const [showChild, setShowChild] = useState(false);
   const router = useRouter();
   const [token] = useAtom(tokenAtom);
@@ -25,9 +48,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     setShowChild(true);
   }, []);
 
-  useEffect(() => {
-    if (!token) return router.push('/login');
-  }, [token]);
+  if (!token) return router.push('/login');
 
   if (!showChild) return null;
 
@@ -42,6 +63,6 @@ function MyApp({ Component, pageProps }: AppProps) {
       {token ? getLayout(<Component {...pageProps} />) : <Login />}
     </ApolloProvider>
   );
-}
+};
 
 export default MyApp;
