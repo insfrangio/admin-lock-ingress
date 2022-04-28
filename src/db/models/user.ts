@@ -5,6 +5,18 @@ const { Schema } = mongoose;
 mongoose.Promise = global.Promise;
 
 const UsersSchema = new Schema({
+  userName: {
+    type: String,
+    required: true,
+    trim: true,
+    unique: true
+  },
+  password: {
+    type: String,
+    required: true,
+    trim: true,
+    unique: true
+  },
   firstName: {
     type: String,
     required: true,
@@ -12,13 +24,18 @@ const UsersSchema = new Schema({
   },
   lastName: {
     type: String,
-    required: true,
     trim: true
   },
   phoneNumber: {
-    type: String,
+    type: Number,
+    trim: true,
+    unique: true
+  },
+  documentNumber: {
+    type: Number,
     required: true,
-    trim: true
+    trim: true,
+    unique: true
   },
   department: {
     type: String,

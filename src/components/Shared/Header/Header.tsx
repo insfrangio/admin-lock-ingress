@@ -1,8 +1,12 @@
+import { useRouter } from 'next/router';
+
 import React from 'react';
 
+import { tokenAtom } from '@/pages/login';
 import { useStore } from '@/store/useStore';
 import { MenuUnfoldOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Dropdown, Menu } from 'antd';
+import { useAtom } from 'jotai';
 import shallow from 'zustand/shallow';
 
 import * as S from './style';
@@ -23,10 +27,15 @@ const Header = () => {
     (state) => [state.isCollapsed, state.toggleCollapsed],
     shallow
   );
+  const router = useRouter();
+  const [_, setToken] = useAtom(tokenAtom);
 
   const handle = {
     '/profile': () => console.log('profile'),
-    '/logout': () => console.log('logout')
+    '/logout': () => {
+      setToken('');
+      router.push('/login');
+    }
   };
 
   return (
@@ -46,14 +55,8 @@ const Header = () => {
             overlay={
               <Menu inlineCollapsed>
                 {PopoverItems.map((item) => (
-                  <Menu.Item key={item.link}>
-                    <a
-                      href={item.link}
-                      target='_blank'
-                      rel='noopener noreferrer'
-                    >
-                      {item.title}
-                    </a>
+                  <Menu.Item key={item.link} onClick={handle[item.link]}>
+                    <span>{item.title}</span>
                   </Menu.Item>
                 ))}
               </Menu>

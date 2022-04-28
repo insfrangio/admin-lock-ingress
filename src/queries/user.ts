@@ -9,6 +9,7 @@ export const GET_USERS = gql`
       phoneNumber
       department
       authType
+      documentNumber
     }
   }
 `;
@@ -22,12 +23,15 @@ export const GET_USER = gql`
       phoneNumber
       department
       authType
+      documentNumber
+      password
+      userName
     }
   }
 `;
 
 export const NEW_USER = gql`
-  mutation NewUser($input: userInput) {
+  mutation NewUser($input: UserInput) {
     newUser(input: $input) {
       id
       firstName
@@ -35,12 +39,13 @@ export const NEW_USER = gql`
       phoneNumber
       department
       authType
+      documentNumber
     }
   }
 `;
 
 export const UPDATE_USER = gql`
-  mutation UpdateUser($id: ID!, $input: userInput) {
+  mutation UpdateUser($id: ID!, $input: UserInput) {
     updateUser(id: $id, input: $input) {
       firstName
     }

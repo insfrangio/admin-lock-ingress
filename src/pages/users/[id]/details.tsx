@@ -2,7 +2,6 @@ import { useRouter } from 'next/router';
 
 import { Fragment } from 'react';
 
-import FormUser from '@/components/Shared/FormUser/FormUser';
 import Layout from '@/components/Shared/Layout/Layout';
 import { GET_USER, GET_USERS, DELETE_USER } from '@/queries/user';
 import { UserOutlined, DeleteTwoTone, EditTwoTone } from '@ant-design/icons';
@@ -12,12 +11,14 @@ import {
   Button,
   Card,
   Image,
+  notification,
   Popconfirm,
   Popover,
   Space,
   Typography
 } from 'antd';
 
+import { authTypOptions, departamentOptions } from '../options';
 import * as S from './style';
 
 const Table = ({ table }) => {
@@ -32,7 +33,11 @@ const Table = ({ table }) => {
               </S.SubTitle>
             </S.CardGridItem>
             <S.CardGridItem width='60%' hoverable={false}>
-              {item.value}
+              {item.value ? (
+                item.value
+              ) : (
+                <span style={{ color: 'red' }}>empty</span>
+              )}
             </S.CardGridItem>
           </Fragment>
         );
@@ -67,12 +72,24 @@ const Details = () => {
           id: id
         }
       });
+
+      notification.success({
+        message: 'Exito!',
+        description: 'Usuario eliminado con exito'
+      });
     } catch (error) {
-      console.log(error);
+      notification.error({
+        message: 'Error',
+        description: e.message
+      });
     }
   };
 
   const table = [
+    {
+      label: 'UserName:',
+      value: data?.getUser.userName
+    },
     {
       label: 'Nombres:',
       value: data?.getUser.firstName
@@ -83,7 +100,7 @@ const Details = () => {
     },
     {
       label: 'Departamento:',
-      value: data?.getUser.department
+      value: departamentOptions[data?.getUser.department]
     },
     {
       label: 'Numero de telefono:',
@@ -91,7 +108,11 @@ const Details = () => {
     },
     {
       label: 'Privilegio:',
-      value: data?.getUser.authType
+      value: authTypOptions[data?.getUser.authType]
+    },
+    {
+      label: 'Nº de Documento:',
+      value: data?.getUser.documentNumber
     }
   ];
 
@@ -100,8 +121,8 @@ const Details = () => {
       <S.Header
         className='site-page-header-responsive'
         onBack={() => window.history.back()}
-        title='Title'
-        // subTitle={challenge?.name}
+        title='Detalles'
+        subTitle={data?.getUser.firstName}
       />
       <S.Card title='Detalles del Usuario' loading={loading}>
         <S.Wrapper>
@@ -110,7 +131,7 @@ const Details = () => {
               <Button
                 type='text'
                 icon={<EditTwoTone />}
-                onClick={() => router.push(`/users/${id}/details`)}
+                onClick={() => router.push(`/users/${id}/save`)}
               />
               <Popconfirm
                 title='Quieres eliminar？'
@@ -125,7 +146,7 @@ const Details = () => {
               </Popconfirm>
             </S.CardGridActions>
 
-            <S.CardGridAvatar>
+            <S.CardGridAvatar hoverable={false}>
               <Avatar shape='square' size={64} icon={<UserOutlined />} />
             </S.CardGridAvatar>
 

@@ -1,7 +1,8 @@
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 
-import { Fragment, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import client from '@/apollo/client';
 import GlobalStyles from '@/styles/global';
@@ -9,13 +10,24 @@ import { ApolloProvider } from '@apollo/client';
 
 import 'antd/dist/antd.css';
 
+import { useAtom } from 'jotai';
+
+import { tokenAtom } from './login';
+import Login from './login';
+
 function MyApp({ Component, pageProps }: AppProps) {
   const getLayout = Component.getLayout || ((page) => page);
   const [showChild, setShowChild] = useState(false);
+  const router = useRouter();
+  const [token] = useAtom(tokenAtom);
 
   useEffect(() => {
     setShowChild(true);
   }, []);
+
+  useEffect(() => {
+    if (!token) return router.push('/login');
+  }, [token]);
 
   if (!showChild) return null;
 
@@ -27,8 +39,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <link rel='icon' href='/favicon.ico' />
       </Head>
       <GlobalStyles />
-
-      {getLayout(<Component {...pageProps} />)}
+      {token ? getLayout(<Component {...pageProps} />) : <Login />}
     </ApolloProvider>
   );
 }

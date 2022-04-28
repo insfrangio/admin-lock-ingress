@@ -6,21 +6,50 @@ const typeDefs = gql`
     User
     Invited
   }
+
+  enum Department {
+    Directive
+    RRHH
+    Sales
+    Marketing
+    FinanceAndAccounting
+    Logistics
+    Cleaning
+    Budgets
+    Management
+    Invited
+  }
+
+  type Token {
+    token: String
+  }
+
   type User {
-    id: ID!
+    id: ID
     firstName: String
     lastName: String
+    documentNumber: Int
     phoneNumber: Int
-    department: String
+    department: Department
+    authType: AuthType
+    userName: String
+    password: String
+  }
+
+  input UserInput {
+    firstName: String!
+    lastName: String
+    userName: String!
+    password: String!
+    documentNumber: Int!
+    phoneNumber: Int
+    department: Department!
     authType: AuthType!
   }
 
-  input userInput {
-    firstName: String!
-    lastName: String!
-    phoneNumber: Int
-    department: String
-    authType: AuthType!
+  input LoginInput {
+    userName: String!
+    password: String!
   }
 
   type Query {
@@ -29,9 +58,10 @@ const typeDefs = gql`
   }
 
   type Mutation {
-    newUser(input: userInput): User!
-    updateUser(id: ID!, input: userInput): User!
+    newUser(input: UserInput): User!
+    updateUser(id: ID!, input: UserInput): User!
     deleteUser(id: ID!): String
+    login(input: LoginInput): Token
   }
 `;
 

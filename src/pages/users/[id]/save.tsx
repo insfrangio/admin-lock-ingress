@@ -6,7 +6,7 @@ import FormUser from '@/components/Shared/FormUser/FormUser';
 import Layout from '@/components/Shared/Layout/Layout';
 import { GET_USER, UPDATE_USER } from '@/queries/user';
 import { useMutation, useQuery } from '@apollo/client';
-import { Skeleton } from 'antd';
+import { notification, Skeleton } from 'antd';
 
 import * as S from './style';
 
@@ -15,14 +15,11 @@ const Save = () => {
 
   const { id } = router.query;
 
-  // if (!id) return <Skeleton />;
-
   const { data, loading } = useQuery(GET_USER, {
     variables: { id },
     fetchPolicy: 'network-only'
   });
 
-  // const challenge = { ...data?.challenge } || null;
   const [updateUser, { loading: updateLoading }] = useMutation(UPDATE_USER, {
     refetchQueries: [
       {
@@ -33,52 +30,7 @@ const Save = () => {
     ]
   });
 
-  // const handleSubmit = async (values: any) => {
-  //   const {
-  //     __typename,
-  //     id,
-  //     schedules,
-  //     createdAt,
-  //     updatedAt,
-  //     status,
-  //     thumb,
-  //     countPlayers,
-  //     lastRoundStatus,
-  //     ...challengeToSave
-  //   } = values;
-
-  //   const { __typename: _, ...confPrize } = challengeToSave.confPrize;
-  //   challengeToSave.confPrize = confPrize;
-
-  //   const newValue = {
-  //     ...challengeToSave,
-  //     forGuests: false
-  //   };
-
-  //   delete newValue.promotion;
-
-  //   newValue.expectedParticipants =
-  //     newValue.expectedParticipants == ''
-  //       ? null
-  //       : newValue.expectedParticipants;
-
-  //   try {
-  //     const response = await updateChallenge({
-  //       variables: {
-  //         input: newValue,
-  //         filter: { ids: [values.id] }
-  //       }
-  //     });
-
-  //     router.push(`/challenge/${values.id}/save?tab=2`);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
   const handleSubmit = async (values) => {
-    console.log(values);
-    console.log(values.id);
     try {
       const response = await updateUser({
         variables: {
@@ -88,14 +40,27 @@ const Save = () => {
             lastName: values.lastName,
             phoneNumber: values.phoneNumber,
             department: values.department,
-            authType: values.authType
+            authType: values.authType,
+            documentNumber: values.documentNumber,
+            userName: values.userName,
+            password: values.password
           }
         }
       });
 
+      notification.success({
+        message: 'Exito!',
+        description: 'Usuario editado con exito'
+      });
+
+      router.push(`/users/`);
+
       // router.push(`/challenge/${values.id}/save?tab=2`);
     } catch (error) {
-      console.log(error);
+      notification.error({
+        message: 'Error',
+        description: e.message
+      });
     }
   };
 
@@ -104,8 +69,8 @@ const Save = () => {
       <S.Header
         className='site-page-header-responsive'
         onBack={() => window.history.back()}
-        title='Title'
-        // subTitle={challenge?.name}
+        title='Editar Usuario'
+        subTitle={data?.getUser.id}
       />
 
       <FormUser

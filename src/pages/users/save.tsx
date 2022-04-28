@@ -6,6 +6,7 @@ import FormUser from '@/components/Shared/FormUser/FormUser';
 import Layout from '@/components/Shared/Layout/Layout';
 import { NEW_USER } from '@/queries/user';
 import { useMutation } from '@apollo/client';
+import { notification } from 'antd';
 
 import * as S from './style';
 
@@ -23,11 +24,16 @@ const Save = () => {
         }
       });
 
-      router.push('/users');
-
-      // eslint-disable-next-line no-empty
+      console.log('response', response);
+      notification.success({
+        message: 'Exito!',
+        description: 'Usuario creado con exito'
+      });
     } catch (e) {
-      console.log('Error create user:', e);
+      notification.error({
+        message: 'Error',
+        description: e.message
+      });
     }
   };
 
@@ -36,7 +42,7 @@ const Save = () => {
       <S.Header
         className='site-page-header-responsive'
         onBack={() => window.history.back()}
-        title='Title'
+        title='Crear Usuario'
       />
 
       <FormUser onLoading={loading} handleSubmit={handleSubmit} />

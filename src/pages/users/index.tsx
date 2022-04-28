@@ -6,14 +6,15 @@ import Layout from '@/components/Shared/Layout/Layout';
 import { GET_USERS } from '@/queries/user';
 import { EditTwoTone, EyeTwoTone } from '@ant-design/icons';
 import { useQuery } from '@apollo/client';
-import { Button, Space, Table, Tag } from 'antd';
+import { Button, Skeleton, Space, Table, Tag } from 'antd';
 
+import { departamentOptions } from './options';
 import * as S from './style';
 
 export const statusTags = {
-  Admin: <Tag color='cyan'>Administrador</Tag>,
-  User: <Tag color='green'>Usuario</Tag>,
-  Invited: <Tag color='red'>Invitado</Tag>
+  Admin: <Tag color='green'>Administrador</Tag>,
+  User: <Tag color='cyan'>Usuario</Tag>,
+  Invited: <Tag color='blue'>Invitado</Tag>
 };
 
 const columns = (router) => {
@@ -21,28 +22,34 @@ const columns = (router) => {
     {
       title: 'Nombre',
       dataIndex: 'firstName',
-      key: 'firstName',
-      render: (text) => <a>{text}</a>
+      key: 'firstName'
     },
     {
       title: 'Apellido',
       dataIndex: 'lastName',
       key: 'lastName',
-      responsive: ['sm'],
-      render: (text) => <a>{text}</a>
+      responsive: ['md']
+    },
+    {
+      title: 'Nº de Documento',
+      dataIndex: 'documentNumber',
+      key: 'documentNumber',
+      responsive: ['lg']
     },
     {
       title: 'Privilegio',
       dataIndex: 'authType',
       key: 'authType',
-      responsive: ['md'],
+      align: 'center',
+      responsive: ['sm'],
       render: (auth) => statusTags[auth]
     },
     {
       title: 'Departamento',
       dataIndex: 'department',
       key: 'department',
-      responsive: ['md']
+      responsive: ['md'],
+      render: (departament) => departamentOptions[departament]
     },
 
     {
@@ -56,12 +63,6 @@ const columns = (router) => {
         <Space size='middle'>
           <Button
             type='text'
-            // style={{
-            //   opacity: ['Draft', 'Canceled'].includes(challenge.status)
-            //     ? 0.3
-            //     : 1
-            // }}
-            // disabled={['Draft', 'Canceled'].includes(challenge.status)}
             icon={<EyeTwoTone />}
             onClick={() => router.push(`/users/${id}/details`)}
           />
@@ -82,14 +83,14 @@ const Users = () => {
   const { loading, data: dataUsers } = useQuery(GET_USERS, {
     fetchPolicy: 'network-only'
   });
-  if (loading) return <h1>Loading....</h1>;
+  if (loading) return <Skeleton />;
   return (
     <Fragment>
       <S.Header
         className='site-page-header-responsive'
         onBack={() => window.history.back()}
         title='Usuarios'
-        subTitle='Hay un total de 4 usuarios'
+        subTitle={`Hay un total de ${dataUsers?.getUsers.length} usuarios`}
         backIcon={false}
         extra={[
           <Button

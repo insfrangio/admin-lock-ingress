@@ -14,25 +14,47 @@ const FormUser = ({ handleSubmit, user, onLoading }) => {
     { label: 'Invitado', value: 'Invited' }
   ];
 
+  const departamentOptions: any = [
+    { value: 'Directive', label: 'Directivos' },
+    { value: 'RRHH', label: 'Recursos Humanos' },
+    { value: 'Sales', label: 'Ventas' },
+    { value: 'Marketing', label: 'Marketing' },
+    { value: 'FinanceAndAccounting', label: 'Finanzas y Contabilidad' },
+    { value: 'Logistics', label: 'Logistica' },
+    { value: 'Cleaning', label: 'Limpieza' },
+    { value: 'Budgets', label: 'Presupuestos' },
+    { value: 'Management', label: 'Administración' },
+    { value: 'Invited', label: 'Invitado' }
+  ];
+
   const initialValues = isEmpty(user?.getUser)
     ? {
         firstName: '',
         lastName: '',
+        documentNumber: '',
         phoneNumber: 983,
-        department: '',
-        authType: ''
+        department: 'Invited',
+        authType: 'Invited',
+        userName: '',
+        password: ''
       }
     : {
         id: user?.getUser.id,
         firstName: user?.getUser.firstName,
         lastName: user?.getUser.lastName,
+        documentNumber: user?.getUser.documentNumber,
         phoneNumber: user?.getUser.phoneNumber,
         department: user?.getUser.department,
-        authType: user?.getUser.authType
+        authType: user?.getUser.authType,
+        userName: user?.getUser.userName,
+        password: user?.getUser.password
       };
 
   return (
-    <S.Card title='Editar Usuario' loading={onLoading}>
+    <S.Card
+      title={isEmpty(user) ? 'Cree un nuevo usuario' : user?.getUser.firstName}
+      loading={onLoading}
+    >
       <S.Wrapper>
         <S.CardGrid hoverable={false}>
           <Formik
@@ -54,14 +76,26 @@ const FormUser = ({ handleSubmit, user, onLoading }) => {
                         <Input name='lastName' />
                       </Form.Item>
                     </Col>
-                    {/* <Col xs={24} md={8} lg={8}>
-                      <Form.Item name='documentNumber' label='Documento'>
+                    <Col xs={24} md={8} lg={8}>
+                      <Form.Item name='userName' label='Nombre de usuario'>
+                        <Input name='userName' />
+                      </Form.Item>
+                    </Col>
+                    <Col xs={24} md={8} lg={8}>
+                      <Form.Item name='password' label='Contrasenha'>
+                        <Input name='password' />
+                      </Form.Item>
+                    </Col>
+                    <Col xs={24} md={8} lg={8}>
+                      <Form.Item name='documentNumber' label='Nº de Documento'>
                         <InputNumber
                           style={{ width: '100%' }}
                           name='documentNumber'
+                          min={9}
                         />
                       </Form.Item>
-                    </Col> */}
+                    </Col>
+
                     <Col xs={24} md={8} lg={8}>
                       <Form.Item name='phoneNumber' label='Numero de telefono'>
                         <InputNumber
@@ -74,14 +108,18 @@ const FormUser = ({ handleSubmit, user, onLoading }) => {
                     </Col>
                     <Col xs={24} md={8} lg={8}>
                       <Form.Item name='department' label='Departamento'>
-                        <Input name='department' />
+                        <Select
+                          name='department'
+                          defaultValue='Invited'
+                          options={departamentOptions}
+                        />
                       </Form.Item>
                     </Col>
                     <Col xs={24} md={8} lg={8}>
                       <Form.Item label='Privilegio' name='authType'>
                         <Select
                           name='authType'
-                          defaultValue='user'
+                          defaultValue='Invited'
                           options={authOptions}
                         />
                       </Form.Item>
@@ -94,8 +132,6 @@ const FormUser = ({ handleSubmit, user, onLoading }) => {
                       </SubmitButton>
                     </Col>
                   </Row>
-
-                  {JSON.stringify(values, null, 2)}
                 </Form>
               );
             }}
