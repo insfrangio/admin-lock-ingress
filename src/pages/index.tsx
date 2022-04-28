@@ -1,3 +1,5 @@
+import { ReactChild, ReactFragment, ReactPortal } from 'react';
+
 import Layout from '@/components/Shared/Layout/Layout';
 
 const Home = () => {
@@ -8,7 +10,9 @@ const Home = () => {
   );
 };
 
-Home.getLayout = function getLayout(page) {
+Home.getLayout = function getLayout(
+  page: boolean | ReactChild | ReactFragment | ReactPortal | null | undefined
+) {
   return (
     <Layout>
       <div>{page}</div>

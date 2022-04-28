@@ -173,7 +173,9 @@ const Details = () => {
   );
 };
 
-Details.getLayout = function getLayout(page) {
+Details.getLayout = function getLayout(
+  page: boolean | ReactChild | ReactFragment | ReactPortal | null | undefined
+) {
   return <Layout>{page}</Layout>;
 };
 
