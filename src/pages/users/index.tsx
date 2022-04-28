@@ -9,7 +9,7 @@ import { useQuery } from '@apollo/client';
 import { Button, Skeleton, Space, Table, Tag } from 'antd';
 import { ColumnGroupType, ColumnsType, ColumnType } from 'antd/lib/table';
 
-import { departamentOptions } from './options';
+import { departamentOptions } from '../../utils/options';
 import * as S from './style';
 
 export const statusTags: Record<string, JSX.Element> = {

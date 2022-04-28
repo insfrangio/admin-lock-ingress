@@ -1,27 +1,82 @@
 import { useRouter } from 'next/router';
 
-import {
-  FC,
-  Fragment,
-  Key,
-  ReactChild,
-  ReactFragment,
-  ReactPortal
-} from 'react';
+import { Fragment, Key, ReactChild, ReactFragment, ReactPortal } from 'react';
+
+import styled from 'styled-components';
 
 import Layout from '@/components/Shared/Layout/Layout';
 import { GET_USER, GET_USERS, DELETE_USER } from '@/queries/user';
 import { UserOutlined, DeleteTwoTone, EditTwoTone } from '@ant-design/icons';
 import { useMutation, useQuery } from '@apollo/client';
-import { Avatar, Button, notification, Popconfirm } from 'antd';
+import {
+  Avatar,
+  Button,
+  Card,
+  notification,
+  PageHeader,
+  Popconfirm,
+  Typography
+} from 'antd';
 
-import { authTypOptions, departamentOptions } from '../options';
-import * as S from './style';
+import { authTypOptions, departamentOptions } from '../../../utils/options';
 
 export interface TableProps {
   label?: string;
   value?: string;
 }
+
+export interface CardGrid {
+  width?: string;
+  height?: string;
+}
+
+export interface CardGridItem {
+  width?: string;
+  height?: string;
+}
+
+export const CardGridItem = styled(Card.Grid)<CardGridItem>`
+  width: ${({ width }) => (width ? width : '50%')};
+  ${({ height }) => `height: ${height}`};
+  padding: 10px;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`;
+
+const Wrapper = styled.div`
+  display: flex;
+  width: 100%;
+  height: 100%;
+
+  align-items: center;
+  justify-content: center;
+`;
+
+export const SubTitle = styled(Typography.Text)`
+  font-size: 12px;
+`;
+
+const CardGrid = styled(Card.Grid)<CardGrid>`
+  width: ${({ width }) => (width ? width : '50%')};
+
+  padding: 0px;
+  ${({ height }) => `height: ${height}`};
+`;
+
+export const CardGridAvatar = styled(Card.Grid)`
+  width: 100%;
+  padding: 20px 10px;
+  text-align: center;
+`;
+
+export const CardGridActions = styled(Card.Grid)`
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 10px;
+`;
 
 const Table = ({ table }: Record<string, Array<TableProps>>) => {
   return (
@@ -29,18 +84,18 @@ const Table = ({ table }: Record<string, Array<TableProps>>) => {
       {table.map((item, idx: Key) => {
         return (
           <Fragment key={idx}>
-            <S.CardGridItem width='40%' hoverable={false}>
-              <S.SubTitle italic strong>
+            <CardGridItem width='40%' hoverable={false}>
+              <SubTitle italic strong>
                 {item.label}
-              </S.SubTitle>
-            </S.CardGridItem>
-            <S.CardGridItem width='60%' hoverable={false}>
+              </SubTitle>
+            </CardGridItem>
+            <CardGridItem width='60%' hoverable={false}>
               {item.value ? (
                 item.value
               ) : (
                 <span style={{ color: 'red' }}>empty</span>
               )}
-            </S.CardGridItem>
+            </CardGridItem>
           </Fragment>
         );
       })}
@@ -69,6 +124,7 @@ const Details = () => {
 
   const handleDelete = async () => {
     try {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const response = await deleteUser({
         variables: {
           id: id
@@ -120,16 +176,17 @@ const Details = () => {
 
   return (
     <Fragment>
-      <S.Header
+      <PageHeader
+        style={{ padding: '16px 24px' }}
         className='site-page-header-responsive'
         onBack={() => window.history.back()}
         title='Detalles'
         subTitle={data?.getUser.firstName}
       />
-      <S.Card title='Detalles del Usuario' loading={loading}>
-        <S.Wrapper>
-          <S.CardGrid width='100%' hoverable={false}>
-            <S.CardGridActions hoverable={false}>
+      <Card title='Detalles del Usuario' loading={loading || deleteLoading}>
+        <Wrapper>
+          <CardGrid width='100%' hoverable={false}>
+            <CardGridActions hoverable={false}>
               <Button
                 type='text'
                 icon={<EditTwoTone />}
@@ -146,16 +203,16 @@ const Details = () => {
               >
                 <Button type='text' icon={<DeleteTwoTone />} />
               </Popconfirm>
-            </S.CardGridActions>
+            </CardGridActions>
 
-            <S.CardGridAvatar hoverable={false}>
+            <CardGridAvatar hoverable={false}>
               <Avatar shape='square' size={64} icon={<UserOutlined />} />
-            </S.CardGridAvatar>
+            </CardGridAvatar>
 
             <Table table={table} />
-          </S.CardGrid>
-        </S.Wrapper>
-      </S.Card>
+          </CardGrid>
+        </Wrapper>
+      </Card>
     </Fragment>
   );
 };

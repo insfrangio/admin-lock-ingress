@@ -7,7 +7,7 @@ import type { AppLayoutProps, AppProps } from 'next/app';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 
-import { FC, ReactNode, useEffect, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 
 import client from '@/apollo/client';
 import GlobalStyles from '@/styles/global';
@@ -48,7 +48,12 @@ const MyApp = ({ Component, pageProps }: AppLayoutProps) => {
     setShowChild(true);
   }, []);
 
-  if (!token) return router.push('/login');
+  useEffect(() => {
+    const redirect = async () => {
+      if (!token) return await router.push('/login');
+    };
+    redirect();
+  }, [token]);
 
   if (!showChild) return null;
 
