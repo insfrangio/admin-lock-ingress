@@ -3,6 +3,16 @@ import styled from 'styled-components';
 import { PageHeader, Typography } from 'antd';
 import { Card as CardDefault } from 'antd';
 
+export interface CardGrid {
+  width?: string;
+  height?: string;
+}
+
+export interface CardGridItem {
+  width?: string;
+  height?: string;
+}
+
 export const Header = styled(PageHeader)`
   padding: 16px 24px;
 `;
@@ -17,14 +27,14 @@ export const Wrapper = styled.div`
 
 export const Card = styled(CardDefault)``;
 
-export const CardGrid = styled(CardDefault.Grid)`
+export const CardGrid = styled(CardDefault.Grid)<CardGrid>`
   width: ${({ width }) => (width ? width : '50%')};
 
   padding: 0px;
   ${({ height }) => `height: ${height}`};
 `;
 
-export const CardGridItem = styled(CardDefault.Grid)`
+export const CardGridItem = styled(CardDefault.Grid)<CardGridItem>`
   width: ${({ width }) => (width ? width : '50%')};
   ${({ height }) => `height: ${height}`};
   padding: 10px;

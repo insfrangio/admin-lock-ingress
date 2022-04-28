@@ -1,6 +1,13 @@
 import { useRouter } from 'next/router';
 
-import { Fragment, Key, ReactChild, ReactFragment, ReactPortal } from 'react';
+import {
+  FC,
+  Fragment,
+  Key,
+  ReactChild,
+  ReactFragment,
+  ReactPortal
+} from 'react';
 
 import Layout from '@/components/Shared/Layout/Layout';
 import { GET_USER, GET_USERS, DELETE_USER } from '@/queries/user';
@@ -11,52 +18,32 @@ import { Avatar, Button, notification, Popconfirm } from 'antd';
 import { authTypOptions, departamentOptions } from '../options';
 import * as S from './style';
 
-type TableType = {
-  label: string;
-  value: string;
-};
+export interface TableProps {
+  label?: string;
+  value?: string;
+}
 
-const Table = ({ table }) => {
+const Table = ({ table }: Record<string, Array<TableProps>>) => {
   return (
     <Fragment>
-      {table.map(
-        (
-          item: {
-            label:
-              | boolean
-              | ReactChild
-              | ReactFragment
-              | ReactPortal
-              | null
-              | undefined;
-            value:
-              | boolean
-              | ReactChild
-              | ReactFragment
-              | ReactPortal
-              | null
-              | undefined;
-          },
-          idx: Key | null | undefined
-        ) => {
-          return (
-            <Fragment key={idx}>
-              <S.CardGridItem width='40%' hoverable={false}>
-                <S.SubTitle italic strong>
-                  {item.label}
-                </S.SubTitle>
-              </S.CardGridItem>
-              <S.CardGridItem width='60%' hoverable={false}>
-                {item.value ? (
-                  item.value
-                ) : (
-                  <span style={{ color: 'red' }}>empty</span>
-                )}
-              </S.CardGridItem>
-            </Fragment>
-          );
-        }
-      )}
+      {table.map((item, idx: Key) => {
+        return (
+          <Fragment key={idx}>
+            <S.CardGridItem width='40%' hoverable={false}>
+              <S.SubTitle italic strong>
+                {item.label}
+              </S.SubTitle>
+            </S.CardGridItem>
+            <S.CardGridItem width='60%' hoverable={false}>
+              {item.value ? (
+                item.value
+              ) : (
+                <span style={{ color: 'red' }}>empty</span>
+              )}
+            </S.CardGridItem>
+          </Fragment>
+        );
+      })}
     </Fragment>
   );
 };
@@ -95,12 +82,12 @@ const Details = () => {
     } catch (error) {
       notification.error({
         message: 'Error',
-        description: e.message
+        description: (error as Record<string, string>).message
       });
     }
   };
 
-  const table: Array<TableType> = [
+  const table: Array<Record<string, string>> = [
     {
       label: 'UserName:',
       value: data?.getUser.userName
