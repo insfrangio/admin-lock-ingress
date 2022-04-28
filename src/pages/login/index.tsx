@@ -1,25 +1,22 @@
 import { useRouter } from 'next/router';
 
-import React from 'react';
+import React, { Fragment } from 'react';
 
+import FormLogin from '@/components/Shared/FormLogin/FormLogin';
 import { LOGIN } from '@/queries/login';
 import { useMutation } from '@apollo/client';
-import { Typography, Divider, Spin, notification } from 'antd';
-import { Row, Col } from 'antd';
-import { Formik } from 'formik';
-import { Form, Input, SubmitButton, Checkbox } from 'formik-antd';
+import { notification } from 'antd';
 import { useAtom } from 'jotai';
 import { atomWithStorage } from 'jotai/utils';
-
-import * as S from './style';
 
 export const tokenAtom = atomWithStorage('token', '');
 
 const Login = () => {
   const [login, { loading }] = useMutation(LOGIN);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [_, setToken] = useAtom(tokenAtom);
   const router = useRouter();
-  const handleSubmit = async (values: any) => {
+  const handleSubmit = async (values: Record<string, unknown>) => {
     try {
       const { data } = await login({
         variables: {
@@ -38,66 +35,10 @@ const Login = () => {
     }
   };
 
-  const initialValues = {
-    userName: '',
-    password: ''
-  };
-
   return (
-    <S.Wrapper>
-      <S.Content>
-        <S.CardGrid>
-          {loading ? (
-            <Spin size='large' />
-          ) : (
-            <Formik
-              initialValues={initialValues}
-              enableReinitialize
-              onSubmit={async (values) => await handleSubmit(values)}
-            >
-              {() => {
-                return (
-                  <S.Form layout='vertical' name='login'>
-                    <Row justify='center'>
-                      <S.Header>
-                        <Typography.Title level={4}>
-                          Inicio de Sesion
-                        </Typography.Title>
-                      </S.Header>
-                    </Row>
-                    <Divider />
-                    <Row>
-                      <Col flex='auto' xxl={24}>
-                        <Form.Item name='userName' label='Nombre de Usuario'>
-                          <Input name='userName' />
-                        </Form.Item>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col flex='auto' xxl={24}>
-                        <Form.Item name='password' label='Contrasenha'>
-                          <Input.Password name='password' />
-                        </Form.Item>
-                      </Col>
-                    </Row>
-
-                    <Form.Item name='remember' valuePropName='checked'>
-                      <Checkbox name='remember'>Recordarme</Checkbox>
-                    </Form.Item>
-
-                    <Row justify='center'>
-                      <Col>
-                        <SubmitButton loading={false}>Acceder</SubmitButton>
-                      </Col>
-                    </Row>
-                  </S.Form>
-                );
-              }}
-            </Formik>
-          )}
-        </S.CardGrid>
-      </S.Content>
-    </S.Wrapper>
+    <Fragment>
+      <FormLogin handleSubmit={handleSubmit} loading={loading} />
+    </Fragment>
   );
 };
 
