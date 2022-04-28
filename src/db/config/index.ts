@@ -1,13 +1,10 @@
-// import mongoose from 'mongoose';
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
-const MongoDb = process.env.MONGO_URI;
+const MongoDb = process?.env.MONGO_URI || '';
 
 const connectDb = async () => {
   try {
-    await mongoose.connect(MongoDb, {
-      useNewUrlParser: true
-    });
+    mongoose.connect(MongoDb);
     console.log('🔥 DataBase success connect 🔥');
   } catch (err) {
     console.log('❌ Error connecting to database ❌');
@@ -16,4 +13,4 @@ const connectDb = async () => {
   }
 };
 
-module.exports = connectDb;
+export default connectDb;

@@ -1,5 +1,3 @@
-import { useRouter } from 'next/router';
-
 import React, { Fragment } from 'react';
 
 import FormUser from '@/components/Shared/FormUser/FormUser';
@@ -11,10 +9,9 @@ import { notification } from 'antd';
 import * as S from './style';
 
 const Save = () => {
-  const router = useRouter();
   const [newUser, { loading }] = useMutation(NEW_USER);
 
-  const handleSubmit = async (values: any) => {
+  const handleSubmit = async (values: Record<string, unknown>) => {
     try {
       const response = await newUser({
         variables: {
@@ -29,10 +26,10 @@ const Save = () => {
         message: 'Exito!',
         description: 'Usuario creado con exito'
       });
-    } catch (e) {
+    } catch (error) {
       notification.error({
         message: 'Error',
-        description: e.message
+        description: (error as Record<string, string>).message
       });
     }
   };
@@ -49,7 +46,15 @@ const Save = () => {
     </Fragment>
   );
 };
-Save.getLayout = function getLayout(page) {
+Save.getLayout = function getLayout(
+  page:
+    | boolean
+    | React.ReactChild
+    | React.ReactFragment
+    | React.ReactPortal
+    | null
+    | undefined
+) {
   return <Layout>{page}</Layout>;
 };
 

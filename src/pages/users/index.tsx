@@ -1,4 +1,4 @@
-import { useRouter } from 'next/router';
+import { NextRouter, useRouter } from 'next/router';
 
 import React, { Fragment } from 'react';
 
@@ -7,17 +7,20 @@ import { GET_USERS } from '@/queries/user';
 import { EditTwoTone, EyeTwoTone } from '@ant-design/icons';
 import { useQuery } from '@apollo/client';
 import { Button, Skeleton, Space, Table, Tag } from 'antd';
+import { ColumnGroupType, ColumnsType, ColumnType } from 'antd/lib/table';
 
 import { departamentOptions } from './options';
 import * as S from './style';
 
-export const statusTags = {
+export const statusTags: Record<string, JSX.Element> = {
   Admin: <Tag color='green'>Administrador</Tag>,
   User: <Tag color='cyan'>Usuario</Tag>,
   Invited: <Tag color='blue'>Invitado</Tag>
 };
 
-const columns = (router) => {
+const columns = (
+  router: string[] | NextRouter
+): ColumnsType<ColumnGroupType<unknown> | ColumnType<unknown>> => {
   return [
     {
       title: 'Nombre',
@@ -42,14 +45,14 @@ const columns = (router) => {
       key: 'authType',
       align: 'center',
       responsive: ['sm'],
-      render: (auth) => statusTags[auth]
+      render: (auth: string) => statusTags[auth]
     },
     {
       title: 'Departamento',
       dataIndex: 'department',
       key: 'department',
       responsive: ['md'],
-      render: (departament) => departamentOptions[departament]
+      render: (departament: string) => departamentOptions[departament]
     },
 
     {
@@ -58,8 +61,7 @@ const columns = (router) => {
       dataIndex: 'id',
       key: 'action',
       align: 'center',
-      fixed: 'center',
-      render: (id, challenge) => (
+      render: (id: string) => (
         <Space size='middle'>
           <Button
             type='text'
@@ -108,7 +110,15 @@ const Users = () => {
   );
 };
 
-Users.getLayout = function getLayout(page) {
+Users.getLayout = function getLayout(
+  page:
+    | boolean
+    | React.ReactChild
+    | React.ReactFragment
+    | React.ReactPortal
+    | null
+    | undefined
+) {
   return <Layout>{page}</Layout>;
 };
 

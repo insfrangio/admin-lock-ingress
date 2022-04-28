@@ -55,4 +55,4 @@ const UsersSchema = new Schema({
 
 UsersSchema.index({ name: 'text' });
 
-module.exports = mongoose.models.User || mongoose.model('User', UsersSchema);
+export const User = mongoose.models.User || mongoose.model('User', UsersSchema);

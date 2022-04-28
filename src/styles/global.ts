@@ -14,7 +14,6 @@ const GlobalStyles = createGlobalStyle`
   html, body, #__next {
     min-height: 100%;
     height: 100%;
-}
   }
 
   body {

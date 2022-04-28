@@ -2,12 +2,7 @@ import styled from 'styled-components';
 
 import { Layout as LayoutDefault, Menu } from 'antd';
 
-const {
-  Header,
-  Content: ContentDefault,
-  Footer,
-  Sider: SiderDefault
-} = LayoutDefault;
+const { Header, Content: ContentDefault, Sider: SiderDefault } = LayoutDefault;
 
 export const Layout = styled(LayoutDefault)`
   min-height: 100%;

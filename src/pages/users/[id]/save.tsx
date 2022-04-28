@@ -1,12 +1,12 @@
 import { useRouter } from 'next/router';
 
-import { Fragment } from 'react';
+import { Fragment, ReactChild, ReactFragment, ReactPortal } from 'react';
 
 import FormUser from '@/components/Shared/FormUser/FormUser';
 import Layout from '@/components/Shared/Layout/Layout';
 import { GET_USER, UPDATE_USER } from '@/queries/user';
 import { useMutation, useQuery } from '@apollo/client';
-import { notification, Skeleton } from 'antd';
+import { notification } from 'antd';
 
 import * as S from './style';
 
@@ -30,7 +30,7 @@ const Save = () => {
     ]
   });
 
-  const handleSubmit = async (values) => {
+  const handleSubmit = async (values: Record<string, unknown>) => {
     try {
       const response = await updateUser({
         variables: {
@@ -54,12 +54,10 @@ const Save = () => {
       });
 
       router.push(`/users/`);
-
-      // router.push(`/challenge/${values.id}/save?tab=2`);
     } catch (error) {
       notification.error({
         message: 'Error',
-        description: e.message
+        description: (error as Record<string, string>).message
       });
     }
   };
@@ -74,7 +72,7 @@ const Save = () => {
       />
 
       <FormUser
-        user={data}
+        user={data?.getUser}
         handleSubmit={handleSubmit}
         onLoading={loading || updateLoading}
       />
@@ -82,7 +80,9 @@ const Save = () => {
   );
 };
 
-Save.getLayout = function getLayout(page) {
+Save.getLayout = function getLayout(
+  page: boolean | ReactChild | ReactFragment | ReactPortal | null | undefined
+) {
   return <Layout>{page}</Layout>;
 };
 

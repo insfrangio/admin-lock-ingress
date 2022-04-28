@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { FC } from 'react';
 
+import { User } from '@/generated/graphql';
 import { Row, Col } from 'antd';
 import { Formik } from 'formik';
 import { Form, Input, InputNumber, Select, SubmitButton } from 'formik-antd';
@@ -7,14 +8,30 @@ import { isEmpty } from 'lodash';
 
 import * as S from './style';
 
-const FormUser = ({ handleSubmit, user, onLoading }) => {
-  const authOptions: any = [
+export interface FormUserTypes {
+  handleSubmit: (values: Record<string, unknown>) => void;
+  user?: User;
+  onLoading: boolean;
+}
+
+type AuthOptions = {
+  label: string;
+  value: string;
+};
+
+type DepartamentOptions = {
+  value: string;
+  label: string;
+};
+
+const FormUser: FC<FormUserTypes> = ({ handleSubmit, user, onLoading }) => {
+  const authOptions: Array<AuthOptions> = [
     { label: 'Administrador', value: 'Admin' },
     { label: 'Usuario', value: 'User' },
     { label: 'Invitado', value: 'Invited' }
   ];
 
-  const departamentOptions: any = [
+  const departamentOptions: Array<DepartamentOptions> = [
     { value: 'Directive', label: 'Directivos' },
     { value: 'RRHH', label: 'Recursos Humanos' },
     { value: 'Sales', label: 'Ventas' },
@@ -27,7 +44,7 @@ const FormUser = ({ handleSubmit, user, onLoading }) => {
     { value: 'Invited', label: 'Invitado' }
   ];
 
-  const initialValues = isEmpty(user?.getUser)
+  const initialValues = isEmpty(user)
     ? {
         firstName: '',
         lastName: '',
@@ -39,20 +56,20 @@ const FormUser = ({ handleSubmit, user, onLoading }) => {
         password: ''
       }
     : {
-        id: user?.getUser.id,
-        firstName: user?.getUser.firstName,
-        lastName: user?.getUser.lastName,
-        documentNumber: user?.getUser.documentNumber,
-        phoneNumber: user?.getUser.phoneNumber,
-        department: user?.getUser.department,
-        authType: user?.getUser.authType,
-        userName: user?.getUser.userName,
-        password: user?.getUser.password
+        id: user?.id,
+        firstName: user?.firstName,
+        lastName: user?.lastName,
+        documentNumber: user?.documentNumber,
+        phoneNumber: user?.phoneNumber,
+        department: user?.department,
+        authType: user?.authType,
+        userName: user?.userName,
+        password: user?.password
       };
 
   return (
     <S.Card
-      title={isEmpty(user) ? 'Cree un nuevo usuario' : user?.getUser.firstName}
+      title={isEmpty(user) ? 'Cree un nuevo usuario' : user?.firstName}
       loading={onLoading}
     >
       <S.Wrapper>
@@ -60,9 +77,9 @@ const FormUser = ({ handleSubmit, user, onLoading }) => {
           <Formik
             initialValues={initialValues}
             enableReinitialize
-            onSubmit={async (values) => await handleSubmit(values)}
+            onSubmit={async (values) => handleSubmit(values)}
           >
-            {({ values }) => {
+            {() => {
               return (
                 <Form layout='vertical' name='user'>
                   <Row wrap gutter={[16, 2]}>
@@ -128,7 +145,7 @@ const FormUser = ({ handleSubmit, user, onLoading }) => {
                   <Row justify='center'>
                     <Col>
                       <SubmitButton loading={onLoading}>
-                        {isEmpty(user?.getUser) ? 'Guardar' : 'Editar'}
+                        {isEmpty(user) ? 'Guardar' : 'Editar'}
                       </SubmitButton>
                     </Col>
                   </Row>

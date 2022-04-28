@@ -23,14 +23,14 @@ const PopoverItems = [
 ];
 
 const Header = () => {
-  const [isCollapsed, toggleCollapsed] = useStore(
-    (state) => [state.isCollapsed, state.toggleCollapsed],
+  const [toggleCollapsed] = useStore(
+    (state) => [state.toggleCollapsed],
     shallow
   );
   const router = useRouter();
   const [_, setToken] = useAtom(tokenAtom);
 
-  const handle = {
+  const handle: Record<string, () => void> = {
     '/profile': () => console.log('profile'),
     '/logout': () => {
       setToken('');

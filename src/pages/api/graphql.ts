@@ -1,10 +1,12 @@
+import connectDb from '@/db/config';
 import { makeExecutableSchema } from '@graphql-tools/schema';
 import { ApolloServerPluginLandingPageGraphQLPlayground } from 'apollo-server-core';
 import { ApolloServer } from 'apollo-server-micro';
+import { MicroRequest } from 'apollo-server-micro/dist/types';
+import { ServerResponse } from 'http';
 
-import connectDb from '../../db/config/index';
-import resolvers from '../api/resolvers/index';
-import typeDefs from '../api/schemas/index';
+import resolvers from './resolvers';
+import typeDefs from './schemas';
 
 connectDb();
 
@@ -26,7 +28,7 @@ const apolloServer = new ApolloServer({
 
 const startServer = apolloServer.start();
 
-export default async function handler(req, res) {
+export default async function handler(req: MicroRequest, res: ServerResponse) {
   await startServer;
   await apolloServer.createHandler({
     path: '/api/graphql'

@@ -1,4 +1,4 @@
-export const departamentOptions = {
+export const departamentOptions: Record<string, string> = {
   Directive: 'Directivos',
   RRHH: 'Recursos Humanos',
   Sales: 'Ventas',
@@ -11,7 +11,7 @@ export const departamentOptions = {
   Invited: 'Invitado'
 };
 
-export const authTypOptions = {
+export const authTypOptions: Record<string, string> = {
   Admin: 'Administrador',
   User: 'Usuario',
   Invited: 'Invitado'

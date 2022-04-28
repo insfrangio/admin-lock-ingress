@@ -1,9 +1,17 @@
-const bcryptjs = require('bcryptjs');
-const jwt = require('jsonwebtoken');
+import { User } from '@/db/models/user';
+import bcryptjs from 'bcryptjs';
+import jwt from 'jsonwebtoken';
 
-const User = require('../../../db/models/user');
+type InputUser = {
+  userName: string;
+  password: string;
+};
 
-function createToken(user, SECRET_KEY, expiresIn) {
+const createToken = (
+  user: { id: string; userName: string },
+  SECRET_KEY: jwt.Secret,
+  expiresIn: string
+) => {
   const { id, userName } = user;
   const payload = {
     id,
@@ -11,7 +19,7 @@ function createToken(user, SECRET_KEY, expiresIn) {
   };
 
   return jwt.sign(payload, SECRET_KEY, { expiresIn });
-}
+};
 
 const resolvers = {
   Query: {
@@ -24,7 +32,7 @@ const resolvers = {
         console.log(err);
       }
     },
-    getUser: async (_, { id }) => {
+    getUser: async (_: unknown, { id }: Record<string, string>) => {
       const user = await User.findById(id);
 
       if (!user) {
@@ -35,7 +43,7 @@ const resolvers = {
     }
   },
   Mutation: {
-    login: async (_, { input }) => {
+    login: async (_: unknown, { input }: Record<string, InputUser>) => {
       const { userName, password } = input;
 
       const userFound = await User.findOne({
@@ -51,11 +59,11 @@ const resolvers = {
       if (!passwordSuccess) throw new Error('Usuario o contrasenha incorrecta');
 
       return {
-        token: createToken(userFound, process.env.SECRET_KEY, '24h')
+        token: createToken(userFound, process.env.SECRET_KEY || '', '24h')
       };
     },
 
-    newUser: async (_, { input }) => {
+    newUser: async (_: unknown, { input }: Record<string, InputUser>) => {
       const newUser = input;
       newUser.userName = newUser.userName.toLowerCase();
 
@@ -79,7 +87,10 @@ const resolvers = {
         console.log(err);
       }
     },
-    updateUser: async (_, { id, input }) => {
+    updateUser: async (
+      _: unknown,
+      { id, input }: Record<string, InputUser>
+    ) => {
       let user = await User.findById(id);
 
       if (!user) {
@@ -92,7 +103,7 @@ const resolvers = {
 
       return User;
     },
-    deleteUser: async (_, { id }) => {
+    deleteUser: async (_: unknown, { id }: Record<string, string>) => {
       const user = await User.findById(id);
 
       if (!user) {
@@ -106,4 +117,4 @@ const resolvers = {
   }
 };
 
-module.exports = resolvers;
+export default resolvers;

@@ -30,10 +30,10 @@ const Login = () => {
       setToken(token);
 
       router.push('/');
-    } catch (e) {
+    } catch (error) {
       notification.error({
         message: 'Error',
-        description: e.message
+        description: (error as Record<string, string>).message
       });
     }
   };
@@ -55,7 +55,7 @@ const Login = () => {
               enableReinitialize
               onSubmit={async (values) => await handleSubmit(values)}
             >
-              {({ values }) => {
+              {() => {
                 return (
                   <S.Form layout='vertical' name='login'>
                     <Row justify='center'>

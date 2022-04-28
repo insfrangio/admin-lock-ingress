@@ -2,7 +2,7 @@ import React, { FC, useEffect } from 'react';
 
 import { useStore } from '@/store/useStore';
 import { Layout as LayoutAntd } from 'antd';
-import { Grid, Tag } from 'antd';
+import { Grid } from 'antd';
 import shallow from 'zustand/shallow';
 
 import Header from '../Header/Header';
@@ -32,7 +32,6 @@ const Layout: FC = ({ children }) => {
   return (
     <LayoutAntd style={{ minHeight: '100vh' }}>
       <S.Sider
-        // breakpoint='lg'
         collapsedWidth='0'
         collapsible
         collapsed={isCollapsed}
