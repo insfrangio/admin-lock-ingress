@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const MongoDb = process?.env.MONGO_URI || '';
+const MongoDb = process?.env.NEXT_PUBLIC_MONGO_URI || '';
 
 const connectDb = async () => {
   try {
