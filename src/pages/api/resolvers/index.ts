@@ -59,11 +59,7 @@ const resolvers = {
       if (!passwordSuccess) throw new Error('Usuario o contrasenha incorrecta');
 
       return {
-        token: createToken(
-          userFound,
-          process.env.NEXT_PUBLIC_SECRET_KEY || '',
-          '24h'
-        )
+        token: createToken(userFound, process.env.SECRET_KEY || '', '24h')
       };
     },
 
