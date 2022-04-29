@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
-import { HomeOutlined, UserOutlined } from '@ant-design/icons';
+import { HomeOutlined, UserOutlined, LockOutlined } from '@ant-design/icons';
 
 import * as S from './style';
 import { Grid } from 'antd';
@@ -20,6 +20,12 @@ const menuItems = [
     title: 'Usuarios',
     icon: <UserOutlined />,
     link: '/users'
+  },
+  {
+    key: 'sub3',
+    title: 'Puerta',
+    icon: <LockOutlined />,
+    link: '/open'
   }
 ];
 
