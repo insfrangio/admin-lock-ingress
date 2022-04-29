@@ -181,9 +181,11 @@ const Details = () => {
         className='site-page-header-responsive'
         onBack={() => window.history.back()}
         title='Detalles'
-        subTitle={data?.getUser.firstName}
       />
-      <Card title='Detalles del Usuario' loading={loading || deleteLoading}>
+      <Card
+        title={`${data?.getUser.firstName} ${data?.getUser.lastName}`}
+        loading={loading || deleteLoading}
+      >
         <Wrapper>
           <CardGrid width='100%' hoverable={false}>
             <CardGridActions hoverable={false}>

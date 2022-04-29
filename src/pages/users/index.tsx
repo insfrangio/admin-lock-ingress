@@ -10,6 +10,7 @@ import { Button, PageHeader, Skeleton, Space, Table, Tag } from 'antd';
 import { ColumnGroupType, ColumnsType, ColumnType } from 'antd/lib/table';
 
 import { departamentOptions } from '../../utils/options';
+import Text from 'antd/lib/typography/Text';
 
 export const statusTags: Record<string, JSX.Element> = {
   Admin: <Tag color='green'>Administrador</Tag>,
@@ -92,7 +93,7 @@ const Users = () => {
         className='site-page-header-responsive'
         onBack={() => window.history.back()}
         title='Usuarios'
-        subTitle={`Hay un total de ${dataUsers?.getUsers.length} usuarios`}
+        // subTitle={`Hay un total de ${dataUsers?.getUsers.length} usuarios`}
         backIcon={false}
         extra={[
           <Button
@@ -104,6 +105,11 @@ const Users = () => {
           </Button>
         ]}
       />
+      <Space style={{ paddingLeft: '10px', paddingBottom: '10px' }}>
+        <Text type='secondary'>
+          {`Hay un total de ${dataUsers?.getUsers.length} usuarios`}
+        </Text>
+      </Space>
 
       <Table columns={columns(router)} dataSource={dataUsers?.getUsers} />
     </Fragment>

@@ -51,8 +51,9 @@ const Header = () => {
 
         <S.Group>
           <Dropdown
-            placement='bottom'
+            placement='bottomLeft'
             arrow
+            trigger={['click']}
             overlay={
               <Menu inlineCollapsed>
                 {PopoverItems.map((item) => (

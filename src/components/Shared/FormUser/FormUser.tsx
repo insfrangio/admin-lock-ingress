@@ -69,7 +69,11 @@ const FormUser: FC<FormUserTypes> = ({ handleSubmit, user, onLoading }) => {
 
   return (
     <S.Card
-      title={isEmpty(user) ? 'Cree un nuevo usuario' : user?.firstName}
+      title={
+        isEmpty(user)
+          ? 'Cree un nuevo usuario'
+          : `${user?.firstName} ${user?.lastName}`
+      }
       loading={onLoading}
     >
       <S.Wrapper>

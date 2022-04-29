@@ -1,7 +1,7 @@
 import React, { FC, useEffect } from 'react';
 
 import { useStore } from '@/store/useStore';
-import { Layout as LayoutAntd } from 'antd';
+import { Layout as LayoutAntd, Skeleton } from 'antd';
 import { Grid } from 'antd';
 import shallow from 'zustand/shallow';
 
@@ -37,6 +37,7 @@ const Layout: FC = ({ children }) => {
         collapsible
         collapsed={isCollapsed}
         trigger={null}
+        width={screens.xs ? '140px' : '200px'}
       >
         <S.HeaderSider>Logo</S.HeaderSider>
 
@@ -47,7 +48,11 @@ const Layout: FC = ({ children }) => {
       <LayoutAntd>
         <Header />
         <S.Content>
-          <S.Responsive>{children}</S.Responsive>
+          {!isCollapsed && screens.xs ? (
+            <Skeleton />
+          ) : (
+            <S.Responsive>{children}</S.Responsive>
+          )}
         </S.Content>
         <Footer />
       </LayoutAntd>

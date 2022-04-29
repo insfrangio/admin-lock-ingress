@@ -68,7 +68,6 @@ const Save = () => {
         className='site-page-header-responsive'
         onBack={() => window.history.back()}
         title='Editar Usuario'
-        subTitle={data?.getUser.id}
       />
 
       <FormUser
