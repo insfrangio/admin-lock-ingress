@@ -1,6 +1,8 @@
 import { ReactChild, ReactFragment, ReactPortal } from 'react';
 
 import Layout from '@/components/Shared/Layout/Layout';
+import { GetServerSideProps } from 'next';
+import jwt_decode from 'jwt-decode';
 
 const Home = () => {
   return (
@@ -18,6 +20,32 @@ Home.getLayout = function getLayout(
       <div>{page}</div>
     </Layout>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+  const { token } = req.cookies;
+
+  if (!token)
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false
+      }
+    };
+  const { authType }: any = jwt_decode(token);
+
+  if (authType !== 'Admin') {
+    return {
+      redirect: {
+        destination: '/open',
+        permanent: false
+      }
+    };
+  }
+
+  return {
+    props: {}
+  };
 };
 
 export default Home;

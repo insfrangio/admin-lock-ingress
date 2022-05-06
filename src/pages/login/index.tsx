@@ -1,20 +1,18 @@
-import { useRouter } from 'next/router';
-
 import React, { Fragment } from 'react';
 
-import FormLogin from '@/components/Shared/FormLogin/FormLogin';
+import { useRouter } from 'next/router';
+import { addDays } from 'date-fns';
 import { LOGIN } from '@/queries/login';
 import { useMutation } from '@apollo/client';
 import { notification } from 'antd';
-import { useAtom } from 'jotai';
-import { atomWithStorage } from 'jotai/utils';
 
-export const tokenAtom = atomWithStorage('token', '');
+import Cookie from 'js-cookie';
+
+import FormLogin from '@/components/Shared/FormLogin/FormLogin';
 
 const Login = () => {
   const [login, { loading }] = useMutation(LOGIN);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [_, setToken] = useAtom(tokenAtom);
+
   const router = useRouter();
   const handleSubmit = async (values: Record<string, unknown>) => {
     try {
@@ -23,8 +21,10 @@ const Login = () => {
           input: values
         }
       });
-      const { token } = data?.login;
-      setToken(token);
+
+      Cookie.set('token', data?.login.token, {
+        expires: addDays(new Date(), 1)
+      });
 
       router.push('/');
     } catch (error) {

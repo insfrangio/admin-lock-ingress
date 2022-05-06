@@ -45,6 +45,7 @@ const Save = () => {
     </Fragment>
   );
 };
+
 Save.getLayout = function getLayout(
   page:
     | boolean

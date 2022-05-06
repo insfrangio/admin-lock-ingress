@@ -1,3 +1,4 @@
+import { AuthType } from './../../../generated/graphql';
 import { User } from '@/db/models/user';
 import bcryptjs from 'bcryptjs';
 import jwt from 'jsonwebtoken';
@@ -8,14 +9,15 @@ type InputUser = {
 };
 
 const createToken = (
-  user: { id: string; userName: string },
+  user: { id: string; userName: string; authType: AuthType },
   SECRET_KEY: jwt.Secret,
   expiresIn: string
 ) => {
-  const { id, userName } = user;
+  const { id, userName, authType } = user;
   const payload = {
     id,
-    userName
+    userName,
+    authType
   };
 
   return jwt.sign(payload, SECRET_KEY, { expiresIn });
