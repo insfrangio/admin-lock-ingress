@@ -21,7 +21,7 @@ const FormLogin: FC<FormLoginTypes> = ({ handleSubmit, loading }) => {
   return (
     <S.Wrapper>
       <S.Content>
-        <S.CardGrid>
+        <S.CardGrid hoverable={false}>
           {loading ? (
             <Spin size='large' />
           ) : (

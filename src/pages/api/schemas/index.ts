@@ -36,6 +36,16 @@ const typeDefs = gql`
     password: String
   }
 
+  type Card {
+    id: ID
+    card_id: Int
+  }
+
+  type Verified {
+    id: ID
+    mode: Boolean
+  }
+
   input UserInput {
     firstName: String!
     lastName: String
@@ -47,19 +57,31 @@ const typeDefs = gql`
     authType: AuthType!
   }
 
+  input VerifiedInput {
+    mode: Boolean
+  }
+
   input LoginInput {
     userName: String!
     password: String!
   }
 
+  type Subscription {
+    verifiedMode: Verified!
+  }
+
   type Query {
     getUsers: [User]!
     getUser(id: ID!): User!
+    getCards: [Card]!
+    getVerified: [Verified]!
   }
 
   type Mutation {
     newUser(input: UserInput): User!
+    newVerified(input: VerifiedInput): Verified!
     updateUser(id: ID!, input: UserInput): User!
+    updateVerified(id: ID!, input: VerifiedInput): Verified!
     deleteUser(id: ID!): String
     login(input: LoginInput): Token
   }

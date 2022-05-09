@@ -9,18 +9,25 @@ export const schema = Yup.object().shape({
     .min(3, 'Apellido muy corto.')
     .max(50, 'Apellido demasiado largo')
     .required('No puede estar vacio'),
+  userName: Yup.string()
+    .min(3, 'Apellido muy corto.')
+    .max(50, 'Apellido demasiado largo')
+    .required('No puede estar vacio'),
+  password: Yup.string()
+    .min(3, 'Apellido muy corto.')
+    .max(50, 'Apellido demasiado largo')
+    .required('No puede estar vacio'),
   documentNumber: Yup.number()
+    .typeError('Debe ser de tipo numerico')
     .nullable(true)
     .positive('Documento invalido')
     .integer('Documento invalido')
-    // .min(8, 'Documento muy corto')
-    // .max(10, 'Numero muy largo')
     .required('No puede estar vacio'),
   phoneNumber: Yup.number()
     .nullable(true)
     .positive('Numero invalido')
     .integer('Numero invalido')
-    .min(9, 'Numero muy corto')
+    .min(12, 'Numero muy corto')
     // .max(10, 'Numero muy largo')
     .required('No puede estar vacio'),
   department: Yup.string()

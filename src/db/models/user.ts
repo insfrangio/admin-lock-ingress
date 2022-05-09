@@ -53,6 +53,24 @@ const UsersSchema = new Schema({
   }
 });
 
+const CardsSchema = new Schema({
+  card_id: {
+    type: String,
+    required: true,
+    trim: true,
+    unique: true
+  }
+});
+
+const VerifiedSchema = new Schema({
+  mode: Boolean
+});
+
 UsersSchema.index({ name: 'text' });
+CardsSchema.index({ id: 'text' });
+VerifiedSchema.index({ mode: 'text' });
 
 export const User = mongoose.models.User || mongoose.model('User', UsersSchema);
+export const Card = mongoose.models.Card || mongoose.model('Card', CardsSchema);
+export const Verified =
+  mongoose.models.Verified || mongoose.model('Verified', VerifiedSchema);

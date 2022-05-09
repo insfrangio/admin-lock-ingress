@@ -6,9 +6,12 @@ import ClosePadLock from '../../../assets/Svg/lock.svg';
 import OpenPadLock from '../../../assets/Svg/open.svg';
 import Image from 'next/image';
 import { notification } from 'antd';
+import Cookie from 'js-cookie';
+import { useRouter } from 'next/router';
 
 const OpenButton = () => {
   const [isOpen, toggleOpen] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     if (isOpen) {
@@ -22,6 +25,14 @@ const OpenButton = () => {
   return (
     <S.Wrapper>
       <S.Content>
+        <S.Logout
+          onClick={() => {
+            Cookie.remove('token');
+            router.replace('/login');
+          }}
+        >
+          <S.LogoutIcon />
+        </S.Logout>
         <S.CardGrid hoverable={false}>
           <S.Animated
             animate={{
