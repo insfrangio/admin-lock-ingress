@@ -1,5 +1,5 @@
 import { AuthType } from './../../../generated/graphql';
-import { User, Card, Verified } from '@/db/models/user';
+import { User, Card, Verified, Open } from '@/db/models/user';
 import bcryptjs from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { PubSub } from 'graphql-subscriptions';
@@ -11,6 +11,10 @@ type InputUser = {
 
 type InputVerified = {
   mode: boolean;
+};
+
+type InputOpen = {
+  open: boolean;
 };
 
 const pubsub = new PubSub();
@@ -39,6 +43,15 @@ const resolvers = {
         return verified;
       } catch (err) {
         console.log('Get verify', err);
+      }
+    },
+    getOpen: async () => {
+      try {
+        const open = await Open.find({});
+
+        return open;
+      } catch (err) {
+        console.log('Get Open', err);
       }
     },
     getCards: async () => {
@@ -96,8 +109,6 @@ const resolvers = {
     ) => {
       let verify = await Verified.findById(id);
 
-      console.log('verify', verify);
-
       if (!verify) {
         throw new Error('Verified not found');
       }
@@ -106,11 +117,26 @@ const resolvers = {
         new: true
       });
 
-      pubsub.publish('VERIFIED_MODE', {
-        verifiedMode: Verified
+      return Verified;
+    },
+    updateOpen: async (
+      _: unknown,
+      { id, input }: Record<string, InputOpen>
+    ) => {
+      console.log('id, input', id, input);
+      let open = await Open.findById(id);
+
+      console.log('open', open);
+
+      if (!open) {
+        throw new Error('Open not found');
+      }
+
+      open = await Open.findOneAndUpdate({ _id: id }, input, {
+        new: true
       });
 
-      return Verified;
+      return Open;
     },
     newUser: async (_: unknown, { input }: Record<string, InputUser>) => {
       const newUser = input;
@@ -140,12 +166,21 @@ const resolvers = {
       _: unknown,
       { input }: Record<string, InputVerified>
     ) => {
-      console.log('input', input);
-
       try {
         const verify = new Verified(input);
 
         const result = await verify.save();
+
+        return result;
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    newOpen: async (_: unknown, { input }: Record<string, InputOpen>) => {
+      try {
+        const open = new Open(input);
+
+        const result = await open.save();
 
         return result;
       } catch (err) {

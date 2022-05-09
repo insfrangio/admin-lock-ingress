@@ -46,6 +46,11 @@ const typeDefs = gql`
     mode: Boolean
   }
 
+  type Open {
+    id: ID
+    open: Boolean
+  }
+
   input UserInput {
     firstName: String!
     lastName: String
@@ -59,6 +64,10 @@ const typeDefs = gql`
 
   input VerifiedInput {
     mode: Boolean
+  }
+
+  input OpenInput {
+    open: Boolean
   }
 
   input LoginInput {
@@ -75,13 +84,16 @@ const typeDefs = gql`
     getUser(id: ID!): User!
     getCards: [Card]!
     getVerified: [Verified]!
+    getOpen: [Open]!
   }
 
   type Mutation {
     newUser(input: UserInput): User!
+    newOpen(input: OpenInput): Open!
     newVerified(input: VerifiedInput): Verified!
     updateUser(id: ID!, input: UserInput): User!
     updateVerified(id: ID!, input: VerifiedInput): Verified!
+    updateOpen(id: ID!, input: OpenInput): Open!
     deleteUser(id: ID!): String
     login(input: LoginInput): Token
   }

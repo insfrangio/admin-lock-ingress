@@ -65,6 +65,9 @@ const CardsSchema = new Schema({
 const VerifiedSchema = new Schema({
   mode: Boolean
 });
+const IsOpenSchema = new Schema({
+  open: Boolean
+});
 
 UsersSchema.index({ name: 'text' });
 CardsSchema.index({ id: 'text' });
@@ -74,3 +77,5 @@ export const User = mongoose.models.User || mongoose.model('User', UsersSchema);
 export const Card = mongoose.models.Card || mongoose.model('Card', CardsSchema);
 export const Verified =
   mongoose.models.Verified || mongoose.model('Verified', VerifiedSchema);
+export const Open =
+  mongoose.models.Open || mongoose.model('Open', IsOpenSchema);
