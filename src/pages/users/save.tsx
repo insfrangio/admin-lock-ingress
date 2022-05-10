@@ -31,6 +31,26 @@ const Save = () => {
       });
     }
   };
+  const handleSubmit = async (values: Record<string, unknown>) => {
+    try {
+      const response = await newUser({
+        variables: {
+          input: {
+            ...values
+          }
+        }
+      });
+      notification.success({
+        message: 'Exito!',
+        description: 'Usuario creado con exito'
+      });
+    } catch (error) {
+      notification.error({
+        message: 'Error!',
+        description: (error as Record<string, string>).message
+      });
+    }
+  };
 
   const showModal = () => {
     updateMode().then(() => {
