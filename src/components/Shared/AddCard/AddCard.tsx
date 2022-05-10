@@ -12,14 +12,22 @@ export interface AddCardProps {
   visible: boolean;
   setVisible: React.Dispatch<React.SetStateAction<boolean>>;
   handleSubmit: (values: Record<string, unknown>) => void;
+  afterSubmit: () => any;
+  setDismountModal: any;
 }
 
-const AddCard: FC<AddCardProps> = ({ visible, setVisible, handleSubmit }) => {
+const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+
+const AddCard: FC<AddCardProps> = ({
+  visible,
+  setVisible,
+  setDismountModal,
+  afterSubmit
+}) => {
   const { loading, error, data } = useQuery(GET_VERIFY, {
     fetchPolicy: 'network-only',
     pollInterval: 1000
   });
-  const { submitForm } = useFormikContext();
 
   useEffect(() => {
     if (visible && data?.getVerified[0].mode) {
@@ -27,7 +35,13 @@ const AddCard: FC<AddCardProps> = ({ visible, setVisible, handleSubmit }) => {
         message: 'Exito!!',
         description: 'Tarjeta registrado correctamente'
       });
+
       setVisible(false);
+
+      sleep(5000).then(() => {
+        console.log('desmountou');
+        setDismountModal(true);
+      });
     }
   }, [visible, data]);
 
@@ -38,7 +52,7 @@ const AddCard: FC<AddCardProps> = ({ visible, setVisible, handleSubmit }) => {
         title={<S.Text>Por favor pase su tarjeta en el lector</S.Text>}
         visible={visible}
         footer={null}
-        afterClose={submitForm}
+        afterClose={afterSubmit}
       >
         <S.Content>
           <Spin indicator={<S.LoadingSpin />} />

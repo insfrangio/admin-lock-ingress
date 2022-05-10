@@ -13,6 +13,8 @@ const Save = () => {
   const [updateVerified, { loading: loadingUpdate }] =
     useMutation(UPDATE_VERIFY);
   const [visible, setVisible] = useState(false);
+  const [valuesSaved, setValues] = useState({});
+  const [dismountModal, setDismountModal] = useState(false);
 
   const updateMode = async () => {
     try {
@@ -31,7 +33,10 @@ const Save = () => {
       });
     }
   };
+
   const handleSubmit = async (values: Record<string, unknown>) => {
+    console.log({ values });
+
     try {
       const response = await newUser({
         variables: {
@@ -60,13 +65,19 @@ const Save = () => {
 
   return (
     <Fragment>
-      {visible && (
+      {!dismountModal && (
         <AddCard
           handleSubmit={handleSubmit}
           visible={visible}
           setVisible={setVisible}
+          setDismountModal={setDismountModal}
+          afterSubmit={() => {
+            console.log('afterSubmit');
+            handleSubmit(valuesSaved);
+          }}
         />
       )}
+
       <PageHeader
         style={{ padding: '16px 24px' }}
         className='site-page-header-responsive'
@@ -74,7 +85,13 @@ const Save = () => {
         title='Crear Usuario'
       />
 
-      <FormUser onLoading={loading} handleSubmit={showModal} />
+      <FormUser
+        onLoading={loading}
+        handleSubmit={(values: any) => {
+          setValues(values);
+          showModal();
+        }}
+      />
     </Fragment>
   );
 };
