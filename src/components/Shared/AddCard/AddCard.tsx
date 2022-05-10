@@ -6,6 +6,7 @@ import { Modal, notification } from 'antd';
 import { Spin } from 'antd';
 
 import * as S from './style';
+import { useFormikContext } from 'formik';
 
 export interface AddCardProps {
   visible: boolean;
@@ -18,6 +19,7 @@ const AddCard: FC<AddCardProps> = ({ visible, setVisible, handleSubmit }) => {
     fetchPolicy: 'network-only',
     pollInterval: 1000
   });
+  const { submitForm } = useFormikContext();
 
   useEffect(() => {
     if (visible && data?.getVerified[0].mode) {
@@ -25,7 +27,6 @@ const AddCard: FC<AddCardProps> = ({ visible, setVisible, handleSubmit }) => {
         message: 'Exito!!',
         description: 'Tarjeta registrado correctamente'
       });
-      // handleSubmit();
       setVisible(false);
     }
   }, [visible, data]);
@@ -37,6 +38,7 @@ const AddCard: FC<AddCardProps> = ({ visible, setVisible, handleSubmit }) => {
         title={<S.Text>Por favor pase su tarjeta en el lector</S.Text>}
         visible={visible}
         footer={null}
+        afterClose={submitForm}
       >
         <S.Content>
           <Spin indicator={<S.LoadingSpin />} />

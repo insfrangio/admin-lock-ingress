@@ -8,18 +8,44 @@ import Image from 'next/image';
 import { notification } from 'antd';
 import Cookie from 'js-cookie';
 import { useRouter } from 'next/router';
+import { useMutation } from '@apollo/client';
+import { UPDATE_OPEN } from '@/queries/open';
+
+const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
 const OpenButton = () => {
+  const [updateOpen] = useMutation(UPDATE_OPEN);
+
   const [isOpen, toggleOpen] = useState(false);
   const router = useRouter();
 
-  useEffect(() => {
-    if (isOpen) {
-      notification.success({
-        message: 'Exito!',
-        description: 'La cerradura ha sido abierta.'
+  const handleOpen = async () => {
+    updateOpen({
+      variables: {
+        id: '627981df566172672efc662f',
+        input: {
+          open: true
+        }
+      }
+    }).then(() => {
+      toggleOpen(true);
+    });
+    sleep(4000).then(() => {
+      updateOpen({
+        variables: {
+          id: '627981df566172672efc662f',
+          input: {
+            open: false
+          }
+        }
+      }).then(() => {
+        toggleOpen(false);
       });
-    }
+    });
+  };
+
+  useEffect(() => {
+    console.log('isOpen', isOpen);
   }, [isOpen]);
 
   return (
@@ -46,7 +72,7 @@ const OpenButton = () => {
                 opacity: 1
               }}
               transition={{ duration: 0.5 }}
-              onClick={() => toggleOpen((prev) => !prev)}
+              onClick={handleOpen}
             >
               {isOpen ? (
                 <Image src={OpenPadLock} width='100%' height='100%' />
