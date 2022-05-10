@@ -1,12 +1,23 @@
 import { AuthType } from './../../../generated/graphql';
-import { User } from '@/db/models/user';
+import { User, Card, Verified, Open } from '@/db/models/user';
 import bcryptjs from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import { PubSub } from 'graphql-subscriptions';
 
 type InputUser = {
   userName: string;
   password: string;
 };
+
+type InputVerified = {
+  mode: boolean;
+};
+
+type InputOpen = {
+  open: boolean;
+};
+
+const pubsub = new PubSub();
 
 const createToken = (
   user: { id: string; userName: string; authType: AuthType },
@@ -25,6 +36,33 @@ const createToken = (
 
 const resolvers = {
   Query: {
+    getVerified: async () => {
+      try {
+        const verified = await Verified.find({});
+
+        return verified;
+      } catch (err) {
+        console.log('Get verify', err);
+      }
+    },
+    getOpen: async () => {
+      try {
+        const open = await Open.find({});
+
+        return open;
+      } catch (err) {
+        console.log('Get Open', err);
+      }
+    },
+    getCards: async () => {
+      try {
+        const cards = await Card.find({});
+
+        return cards;
+      } catch (err) {
+        console.log('Get Cards', err);
+      }
+    },
     getUsers: async () => {
       try {
         const users = await User.find({});
@@ -65,6 +103,41 @@ const resolvers = {
       };
     },
 
+    updateVerified: async (
+      _: unknown,
+      { id, input }: Record<string, InputVerified>
+    ) => {
+      let verify = await Verified.findById(id);
+
+      if (!verify) {
+        throw new Error('Verified not found');
+      }
+
+      verify = await Verified.findOneAndUpdate({ _id: id }, input, {
+        new: true
+      });
+
+      return Verified;
+    },
+    updateOpen: async (
+      _: unknown,
+      { id, input }: Record<string, InputOpen>
+    ) => {
+      console.log('id, input', id, input);
+      let open = await Open.findById(id);
+
+      console.log('open', open);
+
+      if (!open) {
+        throw new Error('Open not found');
+      }
+
+      open = await Open.findOneAndUpdate({ _id: id }, input, {
+        new: true
+      });
+
+      return Open;
+    },
     newUser: async (_: unknown, { input }: Record<string, InputUser>) => {
       const newUser = input;
       newUser.userName = newUser.userName.toLowerCase();
@@ -83,6 +156,31 @@ const resolvers = {
         const user = new User(newUser);
 
         const result = await user.save();
+
+        return result;
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    newVerified: async (
+      _: unknown,
+      { input }: Record<string, InputVerified>
+    ) => {
+      try {
+        const verify = new Verified(input);
+
+        const result = await verify.save();
+
+        return result;
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    newOpen: async (_: unknown, { input }: Record<string, InputOpen>) => {
+      try {
+        const open = new Open(input);
+
+        const result = await open.save();
 
         return result;
       } catch (err) {

@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 
-import { Card as CardDefault } from 'antd';
+import { Button as ButtonDefault, Card as CardDefault } from 'antd';
 import { Form as FormDefault } from 'formik-antd';
+import { LogoutOutlined } from '@ant-design/icons';
 
 import { motion } from 'framer-motion';
 
@@ -14,6 +15,9 @@ export const Wrapper = styled.div`
   min-height: 100vh;
   height: 100%;
   background-color: #212935;
+
+  position: relative;
+  user-select: none;
 `;
 
 export const Content = styled.div`
@@ -62,4 +66,47 @@ export const IconClose = styled(CloseOutlined)`
 
 export const IconOpen = styled(CheckOutlined)`
   font-size: 50px;
+`;
+
+export const Logout = styled.button`
+  background: none;
+  color: inherit;
+  border: none;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+
+  position: absolute;
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
+  right: 15px;
+  top: 15px;
+
+  padding: 10px;
+
+  border-radius: 5px;
+
+  background-color: #fafafa;
+
+  cursor: pointer;
+
+  &:active {
+    opacity: 0.5;
+    padding: 10.1px;
+  }
+
+  &:hover {
+    opacity: 0.9;
+  }
+`;
+
+export const LogoutIcon = styled(LogoutOutlined).attrs(() => {
+  return {
+    height: 20,
+    width: 20
+  };
+})`
+  color: #000000;
 `;

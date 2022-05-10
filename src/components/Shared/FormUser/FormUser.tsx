@@ -7,6 +7,7 @@ import { Form, Input, InputNumber, Select, SubmitButton } from 'formik-antd';
 import { isEmpty } from 'lodash';
 
 import * as S from './style';
+import { schema } from './schema';
 
 export interface FormUserTypes {
   handleSubmit: (values: Record<string, unknown>) => void;
@@ -79,6 +80,7 @@ const FormUser: FC<FormUserTypes> = ({ handleSubmit, user, onLoading }) => {
       <S.Wrapper>
         <S.CardGrid hoverable={false}>
           <Formik
+            validationSchema={schema}
             initialValues={initialValues}
             enableReinitialize
             onSubmit={async (values) => handleSubmit(values)}
@@ -123,7 +125,6 @@ const FormUser: FC<FormUserTypes> = ({ handleSubmit, user, onLoading }) => {
                           style={{ width: '100%' }}
                           prefix='+595'
                           name='phoneNumber'
-                          min={9}
                         />
                       </Form.Item>
                     </Col>
