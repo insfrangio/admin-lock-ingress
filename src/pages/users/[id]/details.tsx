@@ -108,7 +108,7 @@ const Details = () => {
 
   const { id } = router.query;
 
-  const { data, loading } = useQuery(GET_USER, {
+  const { data, loading: getLoading } = useQuery(GET_USER, {
     variables: { id },
     fetchPolicy: 'network-only'
   });
@@ -182,9 +182,10 @@ const Details = () => {
         onBack={() => window.history.back()}
         title='Detalles'
       />
+
       <Card
         title={`${data?.getUser.firstName} ${data?.getUser.lastName}`}
-        loading={loading || deleteLoading}
+        loading={getLoading || deleteLoading}
       >
         <Wrapper>
           <CardGrid width='100%' hoverable={false}>

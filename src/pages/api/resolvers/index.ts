@@ -2,7 +2,6 @@ import { AuthType } from './../../../generated/graphql';
 import { User, Card, Verified, Open } from '@/db/models/user';
 import bcryptjs from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import { PubSub } from 'graphql-subscriptions';
 
 type InputUser = {
   userName: string;
@@ -16,8 +15,6 @@ type InputVerified = {
 type InputOpen = {
   open: boolean;
 };
-
-const pubsub = new PubSub();
 
 const createToken = (
   user: { id: string; userName: string; authType: AuthType },
@@ -123,10 +120,7 @@ const resolvers = {
       _: unknown,
       { id, input }: Record<string, InputOpen>
     ) => {
-      console.log('id, input', id, input);
       let open = await Open.findById(id);
-
-      console.log('open', open);
 
       if (!open) {
         throw new Error('Open not found');

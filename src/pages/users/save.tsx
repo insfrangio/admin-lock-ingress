@@ -9,7 +9,7 @@ import { UPDATE_VERIFY } from '@/queries/verified';
 import AddCard from '@/components/Shared/AddCard/AddCard';
 
 const Save = () => {
-  const [newUser, { loading }] = useMutation(NEW_USER);
+  const [newUser, { loading: loadingNewUser }] = useMutation(NEW_USER);
   const [updateVerified, { loading: loadingUpdate }] =
     useMutation(UPDATE_VERIFY);
   const [visible, setVisible] = useState(false);
@@ -17,44 +17,41 @@ const Save = () => {
   const [dismountModal, setDismountModal] = useState(false);
 
   const updateMode = async () => {
-    try {
-      await updateVerified({
-        variables: {
-          id: '6277434825033b289d84edd1',
-          input: {
-            mode: false
-          }
+    updateVerified({
+      variables: {
+        id: '6277434825033b289d84edd1',
+        input: {
+          mode: false
         }
-      });
-    } catch (error) {
+      }
+    }).then((error) => {
       notification.error({
         message: 'Error',
         description: (error as Record<string, string>).message
       });
-    }
+    });
   };
 
   const handleSubmit = async (values: Record<string, unknown>) => {
-    console.log({ values });
-
-    try {
-      const response = await newUser({
-        variables: {
-          input: {
-            ...values
-          }
+    newUser({
+      variables: {
+        input: {
+          ...values
         }
+      }
+    })
+      .then(() => {
+        notification.success({
+          message: 'Exito!',
+          description: 'Usuario creado con exito'
+        });
+      })
+      .catch((error) => {
+        notification.error({
+          message: 'Error!',
+          description: (error as Record<string, string>).message
+        });
       });
-      notification.success({
-        message: 'Exito!',
-        description: 'Usuario creado con exito'
-      });
-    } catch (error) {
-      notification.error({
-        message: 'Error!',
-        description: (error as Record<string, string>).message
-      });
-    }
   };
 
   const showModal = () => {
@@ -86,7 +83,7 @@ const Save = () => {
       />
 
       <FormUser
-        onLoading={loading}
+        onLoading={loadingNewUser || loadingUpdate}
         handleSubmit={(values: any) => {
           setValues(values);
           showModal();

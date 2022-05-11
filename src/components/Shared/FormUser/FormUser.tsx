@@ -104,11 +104,14 @@ const FormUser: FC<FormUserTypes> = ({ handleSubmit, user, onLoading }) => {
                         <Input name='userName' />
                       </Form.Item>
                     </Col>
-                    <Col xs={24} md={8} lg={8}>
-                      <Form.Item name='password' label='Contrasenha'>
-                        <Input name='password' />
-                      </Form.Item>
-                    </Col>
+                    {isEmpty(user) && (
+                      <Col xs={24} md={8} lg={8}>
+                        <Form.Item name='password' label='Contrasenha'>
+                          <Input type={'password'} name='password' />
+                        </Form.Item>
+                      </Col>
+                    )}
+
                     <Col xs={24} md={8} lg={8}>
                       <Form.Item name='documentNumber' label='Nº de Documento'>
                         <InputNumber

@@ -15,7 +15,6 @@ export const schema = Yup.object().shape({
     .required('No puede estar vacio'),
   password: Yup.string()
     .min(3, 'Apellido muy corto.')
-    .max(50, 'Apellido demasiado largo')
     .required('No puede estar vacio'),
   documentNumber: Yup.number()
     .typeError('Debe ser de tipo numerico')
@@ -28,7 +27,6 @@ export const schema = Yup.object().shape({
     .positive('Numero invalido')
     .integer('Numero invalido')
     .min(12, 'Numero muy corto')
-    // .max(10, 'Numero muy largo')
     .required('No puede estar vacio'),
   department: Yup.string()
     .min(2, 'Departamento muy corto.')

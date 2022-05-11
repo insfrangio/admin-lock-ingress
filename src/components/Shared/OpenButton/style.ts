@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 import { Button as ButtonDefault, Card as CardDefault } from 'antd';
 import { Form as FormDefault } from 'formik-antd';
-import { LogoutOutlined } from '@ant-design/icons';
+import { LogoutOutlined, LoadingOutlined } from '@ant-design/icons';
 
 import { motion } from 'framer-motion';
 
@@ -49,6 +49,11 @@ export const Header = styled.div`
 
 export const Animated = styled(motion.div)`
   border-radius: 50%;
+  cursor: pointer;
+
+  &:active {
+    opacity: 0.5;
+  }
 `;
 
 export const Open = styled(motion.div)`
@@ -109,4 +114,9 @@ export const LogoutIcon = styled(LogoutOutlined).attrs(() => {
   };
 })`
   color: #000000;
+`;
+
+export const LoadingSpin = styled(LoadingOutlined)`
+  font-size: 80px;
+  color: #212935;
 `;
