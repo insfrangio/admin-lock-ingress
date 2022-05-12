@@ -8,12 +8,27 @@ Envolver o header da página com o provider, para que o contexto não afete toda
 
 Os seguintes valores são passados ​​como parâmetros:
 
-- getRewardsMethod= função que realiza o post para a api
-- delayRequest= tempo a ser executado o intervalo da requisição
-- currency= ou tipo de moeda
-- t={t} = função para tradução
-- uniqueKey= chave exclusiva para armazenar no `localStorage`
-- Trans={Trans} = componente de tradução
+- getRewardsMethod= função que realiza o post para a `API`.
+- delayRequest= tempo a ser executado o intervalo da requisição.
+- currency= tipo de moeda.
+- t= função para tradução.
+- uniqueKey= chave exclusiva para armazenar no `localStorage`.
+- Trans= componente de tradução.
+
+```javascript
+import { FreeBetsProvider } from '@sysgaming-lab/react-free-bets';
+
+<FreeBetsProvider
+  getRewardsMethod={getRewards}
+  delayRequest={30000}
+  currency={currency}
+  t={t}
+  uniqueKey={`mines_${sessionStorage.getItem('USERNAME')}`}
+  Trans={Trans}
+>
+  <Header>...conteúdo do cabeçalho</Header>
+</FreeBetsProvider>;
+```
 
 ## 2.Implementação do botao de sair (implementado no mines)
 
