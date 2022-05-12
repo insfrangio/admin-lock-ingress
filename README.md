@@ -1,8 +1,8 @@
 [Next.js](https://nextjs.org/) [http://localhost:3000](http://localhost:3000) `pages/index.tsx` [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Passos para adicionar a lib de freeBets em algum projeto.
+# Passos para adicionar a lib de freeBets em algum projeto.
 
-# Implementação do botao de bet projeto de mines
+## Implementação do botao de bet e sair do modo de aposta grátis no projeto de mines
 
 Temos a função de betar, na qual foram passados ​​mais dois parâmetros que o back precisa receber no momento da aposta ser Free.
 
@@ -13,7 +13,7 @@ import { useFreebets } from '@sysgaming-lab/react-free-bets';
 
 const { exitFreeBetMode, reward, updateBetUsed } = useFreebets();
 
-// Função que envia a aposta para a api
+// Função que envia a aposta para a API
 const onStartRound = (
   minesAmounth,
   betValue,
