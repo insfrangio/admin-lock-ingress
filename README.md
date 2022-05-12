@@ -107,6 +107,8 @@ Está sendo válidado para mostrar no caso de haver uma reward ativa.
 
 No momento de dar click uma função ê executada que dispara um evento dentro da lib que define o estado de reward ativa como `undefined`.
 
+Para este projeto específico o botão da lib react-boostrap é usado e estilizado com styled-components.
+
 ```javascript
 {
   reward?._id && (
@@ -125,6 +127,39 @@ No momento de dar click uma função ê executada que dispara um evento dentro d
     </S.ButtonExit>
   );
 }
+
+// Estilos do botão
+export const ButtonExit = styled(ButtonDefault)`
+  border: none;
+  display: flex;
+  align-items: center;
+
+  height: 50px;
+  margin-left: -10px;
+  min-width: 110px;
+
+  background: rgb(46, 53, 72);
+  background: linear-gradient(
+    270deg,
+    rgba(46, 53, 72, 1) 10%,
+    rgba(92, 44, 59, 1) 50%
+  );
+`;
+
+export const TextExit = styled.span`
+  text-align: center;
+
+  font-size: 12px;
+  margin-left: 10px;
+
+  width: 100%;
+
+  flex: 1;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color: #fafafa;
+`;
 ```
 
 ```bash
