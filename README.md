@@ -2,18 +2,18 @@
 
 # Passos para adicionar a lib de freeBets em algum projeto.
 
-## 1. Configuração inicial para ter o provider lib
+## 1. Configuração inicial para ter o provider da lib
 
 Envolver o header da página com o provider, para que o contexto não afete toda a renderização dos componentes.
 
 Os seguintes valores são passados ​​como parâmetros:
 
--- getRewardsMethod= função que realiza o post para a api
--- delayRequest= tempo a ser executado o intervalo da requisição
--- currency= ou tipo de moeda
-t={t} = função para tradução
-uniqueKey= chave exclusiva para armazenar no `localStorage`
-Trans={Trans} = componente de tradução
+- getRewardsMethod= função que realiza o post para a api
+- delayRequest= tempo a ser executado o intervalo da requisição
+- currency= ou tipo de moeda
+- t={t} = função para tradução
+- uniqueKey= chave exclusiva para armazenar no `localStorage`
+- Trans={Trans} = componente de tradução
 
 ## 2.Implementação do botao de sair (implementado no mines)
 
