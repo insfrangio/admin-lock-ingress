@@ -30,7 +30,21 @@ import { FreeBetsProvider } from '@sysgaming-lab/react-free-bets';
 </FreeBetsProvider>;
 ```
 
-## 2. Importar o Banner de FreeBets abaixo do header
+## 2. Adicionar imagens ao projeto
+
+Es necessário implementar as imagens usadas dentro da lib, na pasta que fica dentro do projeto:
+
+`public/img`
+
+Caso não tenhamos uma pasta img em public, devemos criar.
+
+Nome dos arquivos:
+
+- coin.png
+- error.png
+- people.png
+
+## 3. Importar o Banner de FreeBets abaixo do header
 
 Levar em consideração o posicionamento do header na página para evitar erros no estilo.
 
@@ -43,7 +57,7 @@ import { FreeBetsBanner } from '@sysgaming-lab/react-free-bets';
 </Fragment>;
 ```
 
-## 3. Implementação do botao de sair (implementado no mines)
+## 4. Implementação do botao de sair (implementado no mines)
 
 - Fluxo de betar no modo freeBets.
 
@@ -162,9 +176,13 @@ export const TextExit = styled.span`
 `;
 ```
 
-## 4. Adicionar arquivos de tradução.
+## 5. Adicionar arquivos de tradução.
+
+É necessário adicionar os arquivos de tradução já que a função para traduzir está sendo passada para a lib.
 
 ```json
+
+  // PT_BR
 
   "general.freeBet": "Jogando Grátis",
   "general.remainingFreeBets": "Jogadas grátis restantes: {{remaining}}",
