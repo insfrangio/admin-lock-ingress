@@ -2,7 +2,20 @@
 
 # Passos para adicionar a lib de freeBets em algum projeto.
 
-## Implementação do botao de bet e sair do modo de aposta grátis no projeto de mines
+## 1. Configuração inicial para ter o provider lib
+
+Envolver o header da página com o provider, para que o contexto não afete toda a renderização dos componentes.
+
+Os seguintes valores são passados ​​como parâmetros:
+
+-- getRewardsMethod= função que realiza o post para a api
+-- delayRequest= tempo a ser executado o intervalo da requisição
+-- currency= ou tipo de moeda
+t={t} = função para tradução
+uniqueKey= chave exclusiva para armazenar no `localStorage`
+Trans={Trans} = componente de tradução
+
+## 2.Implementação do botao de sair (implementado no mines)
 
 - Fluxo de betar no modo freeBets.
 
@@ -62,9 +75,9 @@ const onStartRound = (
 
 Como podemos ver o botão está dentro do projeto e estilizado nele.
 
-Está sendo válido mostrar no caso de haver uma reward ativa.
+Está sendo válidado para mostrar no caso de haver uma reward ativa.
 
-No momento de dar click uma função ê executado que dispara um evento dentro da lib que define o estado de reward ativa como `undefined`.
+No momento de dar click uma função ê executada que dispara um evento dentro da lib que define o estado de reward ativa como `undefined`.
 
 ```javascript
 {
