@@ -129,7 +129,7 @@ Para este projeto específico o botão da lib react-boostrap é usado e estiliza
 }
 
 // Estilos do botão
-export const ButtonExit = styled(ButtonDefault)`
+export const ButtonExit = styled(ButtonBootstrap)`
   border: none;
   display: flex;
   align-items: center;
@@ -162,8 +162,26 @@ export const TextExit = styled.span`
 `;
 ```
 
-```bash
-npm run dev
-# or
-yarn dev
+## 4. Adicionar arquivos de tradução.
+
+```json
+
+  "general.freeBet": "Jogando Grátis",
+  "general.remainingFreeBets": "Jogadas grátis restantes: {{remaining}}",
+  "freebets.gotReward": "Você ganhou uma recompensa",
+  "freebets.info": "<p>Você recebeu <span class=\"strong\">{{betCount}} apostas</span> grátis, cada uma no valor de <span class=\"strong\">{{betAmount}}</span></p><p>As apostas vencem em <span class=\"strong\">{{date}} às {{time}}</span></p>",
+  "freebets.notSeeAnymore": "Não ver mais essa mensagem",
+  "freebets.playLater": "Jogar mais tarde",
+  "freebets.playNow": "Jogar agora",
+  "general.IdontWant": "Não Quero",
+  "general.betNow": "Jogar agora",
+  "general.comeBackRewards": "Voltar para as minhas recompensas",
+  "general.congratulations": "PARABÉNS!",
+  "general.readRegulation": "Consulte o regulamento",
+  "general.regulation": "1. Solo se puede aceptar una oferta de Apuetas Grátis a la vez. <br/><br/>2. Tras aceptar la oferta de apuestas Grátis deberás completar todas las apuestas antes de volver al juego estándar. <br/><br/>3. Al finalizar la útima apuesta, todas las ganancias se añadirán a tu saldo real. <br/><br/>4. Solo se añadirán a tu saldo real las ganancias obtenidas en apuestas gratis. <br/><br/>5. Las apuestas gratis se pierden en cualuquier caso de empate. <br/><br/>6. Todas las apuestas están valoradas en la misma cantidad especificada en la oferta. <br/><br/>7. El número de apuestas otorgadas también aparece en la oferta. <br/><br/>8. La cantidad de apuestas por ronda está limitada y se especicfica en la oferta. <br/><br/>9. Para ver el valor y cantidad de apuestas por ronda pulsa en el icono de la flecha hacia abajo de la esquina superior izquierda. <br/><br/>10. !Recuerda! La apuesta con seguro no está permitida durante la ronda de Apuestas Gratis.",
+  "general.useFreeBet": "Usar {{remaining}}/{{betCount}} aposta grátis",
+  "general.validUntilThisDate": "Valido até {{startDate}} as {{startTime}}hs",
+  "general.youHaveBets": "Voce tem {{betCountUsed}} apostas de {{betCount}}",
+  "rules.straightExit": "<h6 class=\"mt-2\">SAÍDA FORÇADA</h6><p>Sempre que o prêmio do jogador no round puder alcançar um valor superior ao lucro máximo, o prêmio é retirado automaticamente.</p>"
+
 ```
