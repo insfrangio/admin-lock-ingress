@@ -26,11 +26,22 @@ import { FreeBetsProvider } from '@sysgaming-lab/react-free-bets';
   uniqueKey={`mines_${sessionStorage.getItem('USERNAME')}`}
   Trans={Trans}
 >
-  <Header>...conteúdo do cabeçalho</Header>
+  <Header>...conteúdo do header</Header>
 </FreeBetsProvider>;
 ```
 
-## 2.Implementação do botao de sair (implementado no mines)
+## 2. Importar o Banner de FreeBets abaixo do header
+
+```javascript
+import { FreeBetsBanner } from '@sysgaming-lab/react-free-bets';
+
+<Fragment>
+  <Header>...conteúdo do header</Header>
+  <FreeBetsBanner />
+</Fragment>;
+```
+
+## 3. Implementação do botao de sair (implementado no mines)
 
 - Fluxo de betar no modo freeBets.
 
