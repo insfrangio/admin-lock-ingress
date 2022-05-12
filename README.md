@@ -32,6 +32,8 @@ import { FreeBetsProvider } from '@sysgaming-lab/react-free-bets';
 
 ## 2. Importar o Banner de FreeBets abaixo do header
 
+Levar em consideração o posicionamento do header na página para evitar erros no estilo.
+
 ```javascript
 import { FreeBetsBanner } from '@sysgaming-lab/react-free-bets';
 
