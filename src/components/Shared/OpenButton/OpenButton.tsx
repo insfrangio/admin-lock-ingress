@@ -52,10 +52,6 @@ const OpenButton = () => {
     });
   };
 
-  useEffect(() => {
-    console.log('loading', loading);
-  }, [loading]);
-
   return (
     <S.Wrapper>
       <S.Content>

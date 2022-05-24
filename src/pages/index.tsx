@@ -1,14 +1,24 @@
-import { ReactChild, ReactFragment, ReactPortal } from 'react';
+import { Fragment, ReactChild, ReactFragment, ReactPortal } from 'react';
+
+import { GetServerSideProps } from 'next';
+import { PageHeader } from 'antd';
 
 import Layout from '@/components/Shared/Layout/Layout';
-import { GetServerSideProps } from 'next';
 import jwt_decode from 'jwt-decode';
+import Chart from '@/components/Shared/Chart/Chart';
 
 const Home = () => {
   return (
-    <div>
-      <h1>Inicio</h1>
-    </div>
+    <Fragment>
+      <PageHeader
+        style={{ padding: '16px 24px' }}
+        className='site-page-header-responsive'
+        title='Estadisticas'
+        backIcon={false}
+      />
+
+      <Chart />
+    </Fragment>
   );
 };
 

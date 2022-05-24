@@ -1,16 +1,18 @@
-import { NextRouter, useRouter } from 'next/router';
-
 import React, { Fragment } from 'react';
 
-import Layout from '@/components/Shared/Layout/Layout';
+import { NextRouter, useRouter } from 'next/router';
+
 import { GET_USERS } from '@/queries/user';
 import { EditTwoTone, EyeTwoTone } from '@ant-design/icons';
 import { useQuery } from '@apollo/client';
 import { Button, PageHeader, Skeleton, Space, Table, Tag } from 'antd';
 import { ColumnGroupType, ColumnsType, ColumnType } from 'antd/lib/table';
-
+import { GetServerSideProps } from 'next';
 import { departamentOptions } from '../../utils/options';
+
+import Layout from '@/components/Shared/Layout/Layout';
 import Text from 'antd/lib/typography/Text';
+import jwt_decode from 'jwt-decode';
 
 export const statusTags: Record<string, JSX.Element> = {
   Admin: <Tag color='green'>Administrador</Tag>,
@@ -93,7 +95,6 @@ const Users = () => {
         className='site-page-header-responsive'
         onBack={() => window.history.back()}
         title='Usuarios'
-        // subTitle={`Hay un total de ${dataUsers?.getUsers.length} usuarios`}
         backIcon={false}
         extra={[
           <Button
@@ -126,6 +127,32 @@ Users.getLayout = function getLayout(
     | undefined
 ) {
   return <Layout>{page}</Layout>;
+};
+
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+  const { token } = req.cookies;
+
+  if (!token)
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false
+      }
+    };
+  const { authType }: any = jwt_decode(token);
+
+  if (authType !== 'Admin') {
+    return {
+      redirect: {
+        destination: '/open',
+        permanent: false
+      }
+    };
+  }
+
+  return {
+    props: {}
+  };
 };
 
 export default Users;

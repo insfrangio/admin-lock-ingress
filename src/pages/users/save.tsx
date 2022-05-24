@@ -1,12 +1,15 @@
 import React, { Fragment, useState } from 'react';
 
-import FormUser from '@/components/Shared/FormUser/FormUser';
-import Layout from '@/components/Shared/Layout/Layout';
 import { NEW_USER } from '@/queries/user';
 import { useMutation } from '@apollo/client';
 import { notification, PageHeader } from 'antd';
 import { UPDATE_VERIFY } from '@/queries/verified';
+import { GetServerSideProps } from 'next';
+
+import FormUser from '@/components/Shared/FormUser/FormUser';
+import Layout from '@/components/Shared/Layout/Layout';
 import AddCard from '@/components/Shared/AddCard/AddCard';
+import jwt_decode from 'jwt-decode';
 
 const Save = () => {
   const [newUser, { loading: loadingNewUser }] = useMutation(NEW_USER);
@@ -69,7 +72,6 @@ const Save = () => {
           setVisible={setVisible}
           setDismountModal={setDismountModal}
           afterSubmit={() => {
-            console.log('afterSubmit');
             handleSubmit(valuesSaved);
           }}
         />
@@ -103,6 +105,32 @@ Save.getLayout = function getLayout(
     | undefined
 ) {
   return <Layout>{page}</Layout>;
+};
+
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+  const { token } = req.cookies;
+
+  if (!token)
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false
+      }
+    };
+  const { authType }: any = jwt_decode(token);
+
+  if (authType !== 'Admin') {
+    return {
+      redirect: {
+        destination: '/open',
+        permanent: false
+      }
+    };
+  }
+
+  return {
+    props: {}
+  };
 };
 
 export default Save;

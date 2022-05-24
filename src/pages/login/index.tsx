@@ -26,7 +26,9 @@ const Login = () => {
         });
       })
       .then(() => {
-        router.replace('/');
+        if (!loading) {
+          router.replace('/');
+        }
       })
       .catch((error) => {
         notification.error({
@@ -36,15 +38,7 @@ const Login = () => {
       });
   };
 
-  return (
-    <Fragment>
-      {loading ? (
-        <Spin size='large' />
-      ) : (
-        <FormLogin handleSubmit={handleSubmit} />
-      )}
-    </Fragment>
-  );
+  return <FormLogin handleSubmit={handleSubmit} loading={loading} />;
 };
 
 export default Login;

@@ -5,9 +5,9 @@ import { Row, Col } from 'antd';
 import { Formik } from 'formik';
 import { Form, Input, InputNumber, Select, SubmitButton } from 'formik-antd';
 import { isEmpty } from 'lodash';
+import { schema } from './schema';
 
 import * as S from './style';
-import { schema } from './schema';
 
 export interface FormUserTypes {
   handleSubmit: (values: Record<string, unknown>) => void;
@@ -25,26 +25,26 @@ type DepartamentOptions = {
   label: string;
 };
 
+const authOptions: Array<AuthOptions> = [
+  { label: 'Administrador', value: 'Admin' },
+  { label: 'Usuario', value: 'User' },
+  { label: 'Invitado', value: 'Invited' }
+];
+
+const departamentOptions: Array<DepartamentOptions> = [
+  { value: 'Directive', label: 'Directivos' },
+  { value: 'RRHH', label: 'Recursos Humanos' },
+  { value: 'Sales', label: 'Ventas' },
+  { value: 'Marketing', label: 'Marketing' },
+  { value: 'FinanceAndAccounting', label: 'Finanzas y Contabilidad' },
+  { value: 'Logistics', label: 'Logistica' },
+  { value: 'Cleaning', label: 'Limpieza' },
+  { value: 'Budgets', label: 'Presupuestos' },
+  { value: 'Management', label: 'Administración' },
+  { value: 'Invited', label: 'Invitado' }
+];
+
 const FormUser: FC<FormUserTypes> = ({ handleSubmit, user, onLoading }) => {
-  const authOptions: Array<AuthOptions> = [
-    { label: 'Administrador', value: 'Admin' },
-    { label: 'Usuario', value: 'User' },
-    { label: 'Invitado', value: 'Invited' }
-  ];
-
-  const departamentOptions: Array<DepartamentOptions> = [
-    { value: 'Directive', label: 'Directivos' },
-    { value: 'RRHH', label: 'Recursos Humanos' },
-    { value: 'Sales', label: 'Ventas' },
-    { value: 'Marketing', label: 'Marketing' },
-    { value: 'FinanceAndAccounting', label: 'Finanzas y Contabilidad' },
-    { value: 'Logistics', label: 'Logistica' },
-    { value: 'Cleaning', label: 'Limpieza' },
-    { value: 'Budgets', label: 'Presupuestos' },
-    { value: 'Management', label: 'Administración' },
-    { value: 'Invited', label: 'Invitado' }
-  ];
-
   const initialValues = isEmpty(user)
     ? {
         firstName: '',
