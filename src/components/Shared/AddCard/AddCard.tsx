@@ -7,43 +7,39 @@ import { Spin } from 'antd';
 
 import * as S from './style';
 import { useFormikContext } from 'formik';
+import { useStore } from '@/store/useStore';
 
 export interface AddCardProps {
   visible: boolean;
-  setVisible: React.Dispatch<React.SetStateAction<boolean>>;
   handleSubmit: (values: Record<string, unknown>) => void;
-  afterSubmit: () => any;
-  setDismountModal: any;
 }
 
-const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+// const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
-const AddCard: FC<AddCardProps> = ({
-  visible,
-  setVisible,
-  setDismountModal,
-  afterSubmit
-}) => {
+const AddCard: FC<AddCardProps> = ({ visible }) => {
   const { loading, error, data } = useQuery(GET_VERIFY, {
     fetchPolicy: 'network-only',
-    pollInterval: 1000
+    pollInterval: 1000,
+    skip: !visible
   });
 
+  const { submitForm } = useFormikContext();
+
+  const setOpenModal = useStore((state) => state.setOpenModal);
+
   useEffect(() => {
-    if (visible && data?.getVerified[0].mode) {
+    if (!loading && visible && data?.getVerified[0].mode) {
       notification.success({
         message: 'Exito!!',
         description: 'Tarjeta registrado correctamente'
       });
 
-      setVisible(false);
-
-      sleep(5000).then(() => {
-        console.log('desmountou');
-        setDismountModal(true);
+      submitForm().then(() => {
+        console.log('submit');
+        setOpenModal(false);
       });
     }
-  }, [visible, data]);
+  }, [data, visible, submitForm]);
 
   return (
     <Fragment>
@@ -52,7 +48,6 @@ const AddCard: FC<AddCardProps> = ({
         title={<S.Text>Por favor pase su tarjeta en el lector</S.Text>}
         visible={visible}
         footer={null}
-        afterClose={afterSubmit}
       >
         <S.Content>
           <Spin indicator={<S.LoadingSpin />} />

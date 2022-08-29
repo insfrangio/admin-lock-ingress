@@ -114,7 +114,7 @@ const resolvers = {
         new: true
       });
 
-      return Verified;
+      return verify;
     },
     updateOpen: async (
       _: unknown,

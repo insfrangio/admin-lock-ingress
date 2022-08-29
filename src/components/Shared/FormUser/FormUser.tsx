@@ -1,18 +1,21 @@
-import React, { FC } from 'react';
+import React, { FC, Fragment } from 'react';
 
 import { User } from '@/generated/graphql';
-import { Row, Col } from 'antd';
+import { Row, Col, Button } from 'antd';
 import { Formik } from 'formik';
 import { Form, Input, InputNumber, Select, SubmitButton } from 'formik-antd';
-import { isEmpty } from 'lodash';
+import { cloneWith, isEmpty } from 'lodash';
 import { schema } from './schema';
 
 import * as S from './style';
+import { useStore } from '@/store/useStore';
+import AddCard from '../AddCard/AddCard';
 
 export interface FormUserTypes {
   handleSubmit: (values: Record<string, unknown>) => void;
   user?: User;
   onLoading: boolean;
+  showModal?: () => void;
 }
 
 type AuthOptions = {
@@ -44,7 +47,13 @@ const departamentOptions: Array<DepartamentOptions> = [
   { value: 'Invited', label: 'Invitado' }
 ];
 
-const FormUser: FC<FormUserTypes> = ({ handleSubmit, user, onLoading }) => {
+const FormUser: FC<FormUserTypes> = ({
+  handleSubmit,
+  user,
+  onLoading,
+  showModal
+}) => {
+  const isOpenModal = useStore((state) => state.isOpenModal);
   const initialValues = isEmpty(user)
     ? {
         firstName: '',
@@ -82,12 +91,14 @@ const FormUser: FC<FormUserTypes> = ({ handleSubmit, user, onLoading }) => {
           <Formik
             validationSchema={schema}
             initialValues={initialValues}
-            enableReinitialize
-            onSubmit={async (values) => handleSubmit(values)}
+            onSubmit={async (values) => {
+              handleSubmit(values);
+            }}
           >
-            {() => {
+            {({ errors, touched }) => {
               return (
                 <Form layout='vertical' name='user'>
+                  <AddCard handleSubmit={handleSubmit} visible={isOpenModal} />
                   <Row wrap gutter={[16, 2]}>
                     <Col xs={24} md={8} lg={8}>
                       <Form.Item name='firstName' label='Nombres'>
@@ -152,9 +163,17 @@ const FormUser: FC<FormUserTypes> = ({ handleSubmit, user, onLoading }) => {
                   </Row>
                   <Row justify='center'>
                     <Col>
-                      <SubmitButton loading={onLoading}>
-                        {isEmpty(user) ? 'Guardar' : 'Editar'}
-                      </SubmitButton>
+                      {isEmpty(user) ? (
+                        <Button
+                          type='primary'
+                          disabled={!isEmpty(errors) && !isEmpty(touched)}
+                          onClick={() => showModal && showModal()}
+                        >
+                          Guardar
+                        </Button>
+                      ) : (
+                        <SubmitButton loading={onLoading}>Editar</SubmitButton>
+                      )}
                     </Col>
                   </Row>
                 </Form>

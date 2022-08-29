@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment } from 'react';
 
 import { NEW_USER } from '@/queries/user';
 import { useMutation } from '@apollo/client';
@@ -8,32 +8,15 @@ import { GetServerSideProps } from 'next';
 
 import FormUser from '@/components/Shared/FormUser/FormUser';
 import Layout from '@/components/Shared/Layout/Layout';
-import AddCard from '@/components/Shared/AddCard/AddCard';
 import jwt_decode from 'jwt-decode';
+import { useStore } from '@/store/useStore';
+
+// const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
 const Save = () => {
   const [newUser, { loading: loadingNewUser }] = useMutation(NEW_USER);
-  const [updateVerified, { loading: loadingUpdate }] =
-    useMutation(UPDATE_VERIFY);
-  const [visible, setVisible] = useState(false);
-  const [valuesSaved, setValues] = useState({});
-  const [dismountModal, setDismountModal] = useState(false);
-
-  const updateMode = async () => {
-    updateVerified({
-      variables: {
-        id: '6277434825033b289d84edd1',
-        input: {
-          mode: false
-        }
-      }
-    }).then((error) => {
-      notification.error({
-        message: 'Error',
-        description: (error as Record<string, string>).message
-      });
-    });
-  };
+  const [updateVerified] = useMutation(UPDATE_VERIFY);
+  const setOpenModal = useStore((state) => state.setOpenModal);
 
   const handleSubmit = async (values: Record<string, unknown>) => {
     newUser({
@@ -44,6 +27,7 @@ const Save = () => {
       }
     })
       .then(() => {
+        console.log('se ejecuto handleSubmit');
         notification.success({
           message: 'Exito!',
           description: 'Usuario creado con exito'
@@ -57,26 +41,25 @@ const Save = () => {
       });
   };
 
-  const showModal = () => {
-    updateMode().then(() => {
-      setVisible(true);
+  const showModal = async () => {
+    await updateVerified({
+      variables: {
+        id: '6277434825033b289d84edd1',
+        input: {
+          mode: false
+        }
+      }
+    }).then(({ data }) => {
+      if (data?.updateVerified.mode === false) {
+        setTimeout(() => {
+          setOpenModal(true);
+        }, 1500);
+      }
     });
   };
 
   return (
     <Fragment>
-      {!dismountModal && (
-        <AddCard
-          handleSubmit={handleSubmit}
-          visible={visible}
-          setVisible={setVisible}
-          setDismountModal={setDismountModal}
-          afterSubmit={() => {
-            handleSubmit(valuesSaved);
-          }}
-        />
-      )}
-
       <PageHeader
         style={{ padding: '16px 24px' }}
         className='site-page-header-responsive'
@@ -85,11 +68,9 @@ const Save = () => {
       />
 
       <FormUser
-        onLoading={loadingNewUser || loadingUpdate}
-        handleSubmit={(values: any) => {
-          setValues(values);
-          showModal();
-        }}
+        onLoading={loadingNewUser}
+        handleSubmit={handleSubmit}
+        showModal={showModal}
       />
     </Fragment>
   );
