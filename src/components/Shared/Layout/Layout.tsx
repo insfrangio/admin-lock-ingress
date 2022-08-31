@@ -4,6 +4,8 @@ import { useStore } from '@/store/useStore';
 import { Layout as LayoutAntd, Skeleton } from 'antd';
 import { Grid } from 'antd';
 import shallow from 'zustand/shallow';
+import Image from 'next/image';
+import logo from '../../../assets/images/logoAcaray.png';
 
 import Header from '../Header/Header';
 import MenuContainer from '../Menu/Menu';
@@ -39,7 +41,14 @@ const Layout: FC = ({ children }) => {
         trigger={null}
         width={screens.xs ? '140px' : '200px'}
       >
-        <S.HeaderSider>Logo</S.HeaderSider>
+        <S.HeaderSider>
+          <Image
+            src={logo}
+            // className={styles.imagecomonentcard}
+            width='70px'
+            height='40px'
+          />
+        </S.HeaderSider>
 
         <MenuContainer />
         <PackageVersion />
